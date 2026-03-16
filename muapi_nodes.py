@@ -157,6 +157,24 @@ AUDIO_ENDPOINTS = [
 
 # ── Shared helpers ─────────────────────────────────────────────────────────────
 
+def _load_api_key(api_key_input):
+    """Return api_key_input if set, otherwise fall back to ~/.muapi/config.json."""
+    if api_key_input and api_key_input.strip():
+        return api_key_input.strip()
+    config_path = os.path.expanduser("~/.muapi/config.json")
+    if os.path.isfile(config_path):
+        try:
+            with open(config_path) as f:
+                key = json.load(f).get("api_key", "")
+            if key:
+                return key
+        except Exception:
+            pass
+    raise ValueError(
+        "No API key found. Either paste your key into the api_key field, "
+        "or run `muapi auth configure --api-key YOUR_KEY` in a terminal."
+    )
+
 def _upload_image(api_key, image_tensor):
     if image_tensor.dim() == 4:
         image_tensor = image_tensor[0]
@@ -279,11 +297,11 @@ class MuAPITextToImage:
     @classmethod
     def INPUT_TYPES(cls):
         return {"required": {
-            "api_key": ("STRING", {"multiline": False, "default": ""}),
             "model": (T2I_ENDPOINTS, {"default": "flux-dev-image"}),
             "prompt": ("STRING", {"multiline": True, "default": "A photorealistic portrait of an astronaut on Mars"}),
             "aspect_ratio": (["1:1", "16:9", "9:16", "4:3", "3:4", "3:2", "2:3"], {"default": "1:1"}),
         }, "optional": {
+            "api_key": ("STRING", {"multiline": False, "default": ""}),
             "negative_prompt": ("STRING", {"multiline": True, "default": ""}),
             "custom_endpoint": ("STRING", {"multiline": False, "default": ""}),
             "extra_params_json": ("STRING", {"multiline": True, "default": "{}"}),
@@ -293,9 +311,9 @@ class MuAPITextToImage:
     FUNCTION = "run"
     CATEGORY = "🎨 MuAPI"
 
-    def run(self, api_key, model, prompt, aspect_ratio,
-            negative_prompt="", custom_endpoint="", extra_params_json="{}"):
-        if not api_key.strip(): raise ValueError("api_key required.")
+    def run(self, model, prompt, aspect_ratio,
+            api_key="", negative_prompt="", custom_endpoint="", extra_params_json="{}"):
+        api_key = _load_api_key(api_key)
         endpoint = _ep(model, custom_endpoint)
         payload = {"prompt": prompt, "aspect_ratio": aspect_ratio, **_extra(extra_params_json)}
         if negative_prompt.strip(): payload["negative_prompt"] = negative_prompt.strip()
@@ -310,11 +328,11 @@ class MuAPIImageToImage:
     @classmethod
     def INPUT_TYPES(cls):
         return {"required": {
-            "api_key": ("STRING", {"multiline": False, "default": ""}),
             "model": (I2I_ENDPOINTS, {"default": "flux-kontext-pro-i2i"}),
             "image": ("IMAGE",),
             "prompt": ("STRING", {"multiline": True, "default": "Transform into a watercolour painting"}),
         }, "optional": {
+            "api_key": ("STRING", {"multiline": False, "default": ""}),
             "custom_endpoint": ("STRING", {"multiline": False, "default": ""}),
             "extra_params_json": ("STRING", {"multiline": True, "default": "{}"}),
         }}
@@ -323,8 +341,8 @@ class MuAPIImageToImage:
     FUNCTION = "run"
     CATEGORY = "🎨 MuAPI"
 
-    def run(self, api_key, model, image, prompt, custom_endpoint="", extra_params_json="{}"):
-        if not api_key.strip(): raise ValueError("api_key required.")
+    def run(self, model, image, prompt, api_key="", custom_endpoint="", extra_params_json="{}"):
+        api_key = _load_api_key(api_key)
         endpoint = _ep(model, custom_endpoint)
         print(f"[MuAPI I2I] Uploading image...")
         img_url = _upload_image(api_key, image)
@@ -340,13 +358,13 @@ class MuAPITextToVideo:
     @classmethod
     def INPUT_TYPES(cls):
         return {"required": {
-            "api_key": ("STRING", {"multiline": False, "default": ""}),
             "model": (T2V_ENDPOINTS, {"default": "seedance-v2.0-t2v"}),
             "prompt": ("STRING", {"multiline": True, "default": "A cinematic aerial shot of a futuristic city at dusk"}),
             "aspect_ratio": (["16:9", "9:16", "1:1", "4:3", "3:4", "21:9"], {"default": "16:9"}),
             "quality": (["basic", "high"], {"default": "basic"}),
             "duration": ("INT", {"default": 5, "min": 4, "max": 30, "step": 1}),
         }, "optional": {
+            "api_key": ("STRING", {"multiline": False, "default": ""}),
             "custom_endpoint": ("STRING", {"multiline": False, "default": ""}),
             "extra_params_json": ("STRING", {"multiline": True, "default": "{}"}),
         }}
@@ -355,9 +373,9 @@ class MuAPITextToVideo:
     FUNCTION = "run"
     CATEGORY = "🎬 MuAPI"
 
-    def run(self, api_key, model, prompt, aspect_ratio, quality, duration,
-            custom_endpoint="", extra_params_json="{}"):
-        if not api_key.strip(): raise ValueError("api_key required.")
+    def run(self, model, prompt, aspect_ratio, quality, duration,
+            api_key="", custom_endpoint="", extra_params_json="{}"):
+        api_key = _load_api_key(api_key)
         endpoint = _ep(model, custom_endpoint)
         payload = {"prompt": prompt, "aspect_ratio": aspect_ratio,
                    "quality": quality, "duration": duration, **_extra(extra_params_json)}
@@ -372,13 +390,13 @@ class MuAPIImageToVideo:
     @classmethod
     def INPUT_TYPES(cls):
         return {"required": {
-            "api_key": ("STRING", {"multiline": False, "default": ""}),
             "model": (I2V_ENDPOINTS, {"default": "seedance-v2.0-i2v"}),
             "prompt": ("STRING", {"multiline": True, "default": "The character in @image1 walks through a beautiful garden"}),
             "aspect_ratio": (["16:9", "9:16", "1:1", "4:3", "3:4", "21:9"], {"default": "16:9"}),
             "quality": (["basic", "high"], {"default": "basic"}),
             "duration": ("INT", {"default": 5, "min": 4, "max": 30, "step": 1}),
         }, "optional": {
+            "api_key": ("STRING", {"multiline": False, "default": ""}),
             "image_1": ("IMAGE",), "image_2": ("IMAGE",),
             "image_3": ("IMAGE",), "image_4": ("IMAGE",),
             "custom_endpoint": ("STRING", {"multiline": False, "default": ""}),
@@ -389,10 +407,10 @@ class MuAPIImageToVideo:
     FUNCTION = "run"
     CATEGORY = "🎬 MuAPI"
 
-    def run(self, api_key, model, prompt, aspect_ratio, quality, duration,
-            image_1=None, image_2=None, image_3=None, image_4=None,
+    def run(self, model, prompt, aspect_ratio, quality, duration,
+            api_key="", image_1=None, image_2=None, image_3=None, image_4=None,
             custom_endpoint="", extra_params_json="{}"):
-        if not api_key.strip(): raise ValueError("api_key required.")
+        api_key = _load_api_key(api_key)
         endpoint = _ep(model, custom_endpoint)
         images_list = []
         for i, img in enumerate([image_1, image_2, image_3, image_4], 1):
@@ -414,12 +432,12 @@ class MuAPIExtendVideo:
     @classmethod
     def INPUT_TYPES(cls):
         return {"required": {
-            "api_key": ("STRING", {"multiline": False, "default": ""}),
             "model": (EXTEND_ENDPOINTS, {"default": "seedance-v2.0-extend"}),
             "request_id": ("STRING", {"multiline": False, "default": ""}),
             "quality": (["basic", "high"], {"default": "basic"}),
             "duration": ("INT", {"default": 5, "min": 4, "max": 30, "step": 1}),
         }, "optional": {
+            "api_key": ("STRING", {"multiline": False, "default": ""}),
             "prompt": ("STRING", {"multiline": True, "default": ""}),
             "custom_endpoint": ("STRING", {"multiline": False, "default": ""}),
             "extra_params_json": ("STRING", {"multiline": True, "default": "{}"}),
@@ -429,9 +447,9 @@ class MuAPIExtendVideo:
     FUNCTION = "run"
     CATEGORY = "🎬 MuAPI"
 
-    def run(self, api_key, model, request_id, quality, duration,
-            prompt="", custom_endpoint="", extra_params_json="{}"):
-        if not api_key.strip(): raise ValueError("api_key required.")
+    def run(self, model, request_id, quality, duration,
+            api_key="", prompt="", custom_endpoint="", extra_params_json="{}"):
+        api_key = _load_api_key(api_key)
         if not request_id.strip(): raise ValueError("request_id required.")
         endpoint = _ep(model, custom_endpoint)
         payload = {"request_id": request_id.strip(), "quality": quality,
@@ -448,10 +466,10 @@ class MuAPIImageEnhance:
     @classmethod
     def INPUT_TYPES(cls):
         return {"required": {
-            "api_key": ("STRING", {"multiline": False, "default": ""}),
             "model": (ENHANCE_ENDPOINTS, {"default": "ai-image-upscale"}),
             "image": ("IMAGE",),
         }, "optional": {
+            "api_key": ("STRING", {"multiline": False, "default": ""}),
             "face_image": ("IMAGE",),
             "prompt": ("STRING", {"multiline": True, "default": ""}),
             "custom_endpoint": ("STRING", {"multiline": False, "default": ""}),
@@ -462,9 +480,9 @@ class MuAPIImageEnhance:
     FUNCTION = "run"
     CATEGORY = "✨ MuAPI"
 
-    def run(self, api_key, model, image, face_image=None,
+    def run(self, model, image, api_key="", face_image=None,
             prompt="", custom_endpoint="", extra_params_json="{}"):
-        if not api_key.strip(): raise ValueError("api_key required.")
+        api_key = _load_api_key(api_key)
         endpoint = _ep(model, custom_endpoint)
         print(f"[MuAPI Enhance] Uploading image...")
         img_url = _upload_image(api_key, image)
@@ -483,10 +501,10 @@ class MuAPIVideoEdit:
     @classmethod
     def INPUT_TYPES(cls):
         return {"required": {
-            "api_key": ("STRING", {"multiline": False, "default": ""}),
             "model": (VIDEO_EDIT_ENDPOINTS, {"default": "video-effects"}),
             "video_url": ("STRING", {"multiline": False, "default": ""}),
         }, "optional": {
+            "api_key": ("STRING", {"multiline": False, "default": ""}),
             "prompt": ("STRING", {"multiline": True, "default": ""}),
             "reference_image": ("IMAGE",),
             "custom_endpoint": ("STRING", {"multiline": False, "default": ""}),
@@ -497,9 +515,9 @@ class MuAPIVideoEdit:
     FUNCTION = "run"
     CATEGORY = "🎬 MuAPI"
 
-    def run(self, api_key, model, video_url, prompt="",
+    def run(self, model, video_url, api_key="", prompt="",
             reference_image=None, custom_endpoint="", extra_params_json="{}"):
-        if not api_key.strip(): raise ValueError("api_key required.")
+        api_key = _load_api_key(api_key)
         if not video_url.strip(): raise ValueError("video_url required.")
         endpoint = _ep(model, custom_endpoint)
         payload = {"video_url": video_url.strip(), **_extra(extra_params_json)}
@@ -517,11 +535,11 @@ class MuAPILipsync:
     @classmethod
     def INPUT_TYPES(cls):
         return {"required": {
-            "api_key": ("STRING", {"multiline": False, "default": ""}),
             "model": (LIPSYNC_ENDPOINTS, {"default": "sync-lipsync"}),
             "video_url": ("STRING", {"multiline": False, "default": ""}),
             "audio_url": ("STRING", {"multiline": False, "default": ""}),
         }, "optional": {
+            "api_key": ("STRING", {"multiline": False, "default": ""}),
             "audio_file_path": ("STRING", {"multiline": False, "default": ""}),
             "custom_endpoint": ("STRING", {"multiline": False, "default": ""}),
             "extra_params_json": ("STRING", {"multiline": True, "default": "{}"}),
@@ -531,9 +549,9 @@ class MuAPILipsync:
     FUNCTION = "run"
     CATEGORY = "🎬 MuAPI"
 
-    def run(self, api_key, model, video_url, audio_url,
+    def run(self, model, video_url, audio_url, api_key="",
             audio_file_path="", custom_endpoint="", extra_params_json="{}"):
-        if not api_key.strip(): raise ValueError("api_key required.")
+        api_key = _load_api_key(api_key)
         endpoint = _ep(model, custom_endpoint)
         if audio_file_path.strip() and os.path.isfile(audio_file_path):
             print("[MuAPI Lipsync] Uploading audio...")
@@ -552,10 +570,10 @@ class MuAPIAudio:
     @classmethod
     def INPUT_TYPES(cls):
         return {"required": {
-            "api_key": ("STRING", {"multiline": False, "default": ""}),
             "model": (AUDIO_ENDPOINTS, {"default": "suno-create-music"}),
             "prompt": ("STRING", {"multiline": True, "default": "An upbeat electronic track with driving bass"}),
         }, "optional": {
+            "api_key": ("STRING", {"multiline": False, "default": ""}),
             "custom_endpoint": ("STRING", {"multiline": False, "default": ""}),
             "extra_params_json": ("STRING", {"multiline": True, "default": "{}"}),
         }}
@@ -564,8 +582,8 @@ class MuAPIAudio:
     FUNCTION = "run"
     CATEGORY = "🎵 MuAPI"
 
-    def run(self, api_key, model, prompt, custom_endpoint="", extra_params_json="{}"):
-        if not api_key.strip(): raise ValueError("api_key required.")
+    def run(self, model, prompt, api_key="", custom_endpoint="", extra_params_json="{}"):
+        api_key = _load_api_key(api_key)
         endpoint = _ep(model, custom_endpoint)
         payload = {"prompt": prompt, **_extra(extra_params_json)}
         print(f"[MuAPI Audio] {endpoint}")
@@ -579,12 +597,12 @@ class MuAPIGenerate:
     @classmethod
     def INPUT_TYPES(cls):
         return {"required": {
-            "api_key": ("STRING", {"multiline": False, "default": ""}),
             "endpoint": ("STRING", {"multiline": False, "default": "seedance-v2.0-t2v"}),
             "payload_json": ("STRING", {"multiline": True,
                 "default": json.dumps({"prompt": "A cinematic shot of mountains at sunrise",
                                        "aspect_ratio": "16:9", "quality": "basic", "duration": 5}, indent=2)}),
         }, "optional": {
+            "api_key": ("STRING", {"multiline": False, "default": ""}),
             "file_1": ("IMAGE",), "file_2": ("IMAGE",),
             "file_3": ("IMAGE",), "file_4": ("IMAGE",),
             "file_path_1": ("STRING", {"default": ""}),
@@ -595,10 +613,10 @@ class MuAPIGenerate:
     FUNCTION = "run"
     CATEGORY = "🎬 MuAPI"
 
-    def run(self, api_key, endpoint, payload_json,
+    def run(self, endpoint, payload_json, api_key="",
             file_1=None, file_2=None, file_3=None, file_4=None,
             file_path_1="", file_path_2=""):
-        if not api_key.strip(): raise ValueError("api_key required.")
+        api_key = _load_api_key(api_key)
         if not endpoint.strip(): raise ValueError("endpoint required.")
         try: payload = json.loads(payload_json)
         except json.JSONDecodeError as e: raise ValueError(f"Invalid JSON: {e}")
@@ -633,7 +651,29 @@ class MuAPIGenerate:
         return (out_url, preview, rid, json.dumps(result, indent=2))
 
 
+class MuAPIApiKey:
+    """
+    Store your MuAPI API key once and wire it to any node.
+    Leave all node api_key fields empty — they auto-read from this node
+    or from ~/.muapi/config.json (set via `muapi auth configure`).
+    """
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {"required": {
+            "api_key": ("STRING", {"multiline": False, "default": "",
+                "tooltip": "Your muapi.ai API key. Get one at muapi.ai → Dashboard → API Keys"}),
+        }}
+    RETURN_TYPES = ("STRING",)
+    RETURN_NAMES = ("api_key",)
+    FUNCTION = "run"
+    CATEGORY = "🎬 MuAPI"
+
+    def run(self, api_key):
+        return (_load_api_key(api_key),)
+
+
 NODE_CLASS_MAPPINGS = {
+    "MuAPIApiKey":       MuAPIApiKey,
     "MuAPITextToImage":  MuAPITextToImage,
     "MuAPIImageToImage": MuAPIImageToImage,
     "MuAPITextToVideo":  MuAPITextToVideo,
@@ -647,6 +687,7 @@ NODE_CLASS_MAPPINGS = {
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
+    "MuAPIApiKey":       "🔑 MuAPI API Key",
     "MuAPITextToImage":  "🎨 MuAPI Text-to-Image",
     "MuAPIImageToImage": "🎨 MuAPI Image-to-Image",
     "MuAPITextToVideo":  "🎬 MuAPI Text-to-Video",
