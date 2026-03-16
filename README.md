@@ -11,10 +11,11 @@
 
 [MuAPI](https://muapi.ai) is a generative media API aggregator giving you access to 100+ cutting-edge models: Seedance 2.0, Kling, Veo3, Flux, HiDream, GPT-image-1.5, Imagen4, and many more — all through one unified API key.
 
-## Nodes (11 total)
+## Nodes (12 total)
 
 | Node | Category | Description |
 |------|----------|-------------|
+| 🔑 MuAPI API Key | 🎬 MuAPI | Set your key once — wire to all nodes |
 | 🎨 MuAPI Text-to-Image | 🎨 MuAPI | Flux, HiDream, GPT-image-1.5, Imagen4, Seedream … |
 | 🎨 MuAPI Image-to-Image | 🎨 MuAPI | Flux Kontext, GPT-4o edit, Seededit, Wan edit … |
 | 🎬 MuAPI Text-to-Video | 🎬 MuAPI | Seedance, Kling, Veo3, Wan, HunyuanVideo, Grok … |
@@ -31,21 +32,23 @@
 
 **Via ComfyUI Manager:**
 1. Manager → Install via Git URL
-2. Paste: `https://github.com/SamurAIGPT/awesome-nano-banana`
+2. Paste: `https://github.com/SamurAIGPT/muapi-comfyui`
 3. Restart ComfyUI
 
 **Manual:**
 ```bash
 cd ComfyUI/custom_nodes
-git clone https://github.com/SamurAIGPT/awesome-nano-banana muapi-comfyui
+git clone https://github.com/SamurAIGPT/muapi-comfyui
 pip install -r muapi-comfyui/requirements.txt
 ```
 
 ## Quick Start
 
 1. Get API key at [muapi.ai](https://muapi.ai) → Dashboard → API Keys
-2. Right-click canvas → Add Node → pick any MuAPI node
-3. Paste your key and queue the prompt
+2. Right-click canvas → **Add Node** → **🔑 MuAPI API Key**, paste your key
+3. Wire the `api_key` output to any generation node and queue the prompt
+
+> **Tip:** If you use the [MuAPI CLI](https://github.com/SamurAIGPT/muapi-cli), run `muapi auth configure --api-key YOUR_KEY` once and all nodes pick it up automatically — no need to paste the key anywhere.
 
 ## Generic Node
 
