@@ -1,48 +1,55 @@
 # MuAPI ComfyUI Nodes
 
-Run **any [muapi.ai](https://muapi.ai) model** directly inside ComfyUI.
+> **The ultimate ComfyUI node pack for AI video, image, audio and enhancement** — powered by [muapi.ai](https://muapi.ai).
+> Run 100+ state-of-the-art AI models inside ComfyUI with a single API key.
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![ComfyUI](https://img.shields.io/badge/ComfyUI-Custom%20Nodes-blue)](https://github.com/comfyanonymous/ComfyUI)
+[![Models](https://img.shields.io/badge/Models-100%2B-orange)](https://muapi.ai)
+
+## What is MuAPI?
+
+[MuAPI](https://muapi.ai) is a generative media API aggregator giving you access to 100+ cutting-edge models: Seedance 2.0, Kling, Veo3, Flux, HiDream, GPT-image-1.5, Imagen4, and many more — all through one unified API key.
 
 ## Nodes (11 total)
 
 | Node | Category | Description |
 |------|----------|-------------|
-| 🎨 MuAPI Text-to-Image | 🎨 MuAPI | Flux, HiDream, GPT-image, Imagen4, Seedream, Wan … |
+| 🎨 MuAPI Text-to-Image | 🎨 MuAPI | Flux, HiDream, GPT-image-1.5, Imagen4, Seedream … |
 | 🎨 MuAPI Image-to-Image | 🎨 MuAPI | Flux Kontext, GPT-4o edit, Seededit, Wan edit … |
 | 🎬 MuAPI Text-to-Video | 🎬 MuAPI | Seedance, Kling, Veo3, Wan, HunyuanVideo, Grok … |
-| 🎬 MuAPI Image-to-Video | 🎬 MuAPI | All major I2V models |
-| 🎬 MuAPI Extend Video | 🎬 MuAPI | Extend any previous generation |
+| 🎬 MuAPI Image-to-Video | 🎬 MuAPI | 25+ I2V models, up to 4 reference images |
+| 🎬 MuAPI Extend Video | 🎬 MuAPI | Extend any generation via request_id |
 | ✨ MuAPI Image Enhance | ✨ MuAPI | Upscale, bg-remove, face-swap, Ghibli, colorize … |
-| 🎬 MuAPI Video Edit | 🎬 MuAPI | Effects, dance, dress-change, upscale, watermark … |
+| 🎬 MuAPI Video Edit | 🎬 MuAPI | Effects, dance, dress-change, upscale, lipsync … |
 | 🎬 MuAPI Lipsync | 🎬 MuAPI | Sync.ai, Veed, Creatify |
 | 🎵 MuAPI Audio | 🎵 MuAPI | Suno create/remix/extend, mmaudio |
-| 🎬 MuAPI Generate (Generic) | 🎬 MuAPI | Any endpoint with raw JSON payload |
-| 🎬 MuAPI Save Video | 🎬 MuAPI | Download URL → disk + frames tensor |
+| 🎬 MuAPI Generate (Generic) | 🎬 MuAPI | Any endpoint + raw JSON payload |
+| 🎬 MuAPI Save Video | 🎬 MuAPI | Download video → disk + IMAGE frames |
 
 ## Installation
 
 **Via ComfyUI Manager:**
 1. Manager → Install via Git URL
-2. Paste: `https://github.com/SamurAIGPT/muapi-comfyui`
+2. Paste: `https://github.com/SamurAIGPT/awesome-nano-banana`
 3. Restart ComfyUI
 
 **Manual:**
 ```bash
 cd ComfyUI/custom_nodes
-git clone https://github.com/SamurAIGPT/muapi-comfyui
+git clone https://github.com/SamurAIGPT/awesome-nano-banana muapi-comfyui
 pip install -r muapi-comfyui/requirements.txt
 ```
 
-## Usage
+## Quick Start
 
-1. Get your API key at [muapi.ai](https://muapi.ai) → Dashboard → API Keys
-2. Right-click canvas → Add Node → find nodes under **🎨 MuAPI**, **🎬 MuAPI**, **✨ MuAPI**, or **🎵 MuAPI**
-3. Paste your key into `api_key` and start generating
-
-Every node has a **model dropdown** with 100+ endpoints and a `custom` option. The `extra_params_json` field accepts any model-specific parameters as a JSON object.
+1. Get API key at [muapi.ai](https://muapi.ai) → Dashboard → API Keys
+2. Right-click canvas → Add Node → pick any MuAPI node
+3. Paste your key and queue the prompt
 
 ## Generic Node
 
-The **🎬 MuAPI Generate (Generic)** node lets you call any endpoint with a raw JSON payload. Use `__file_1__` … `__file_4__` placeholders in the JSON — they are replaced with CDN URLs of the connected images automatically.
+Call **any** muapi endpoint with raw JSON. Use `__file_1__` … `__file_4__` placeholders for auto-uploaded images:
 
 ```json
 {
@@ -54,6 +61,18 @@ The **🎬 MuAPI Generate (Generic)** node lets you call any endpoint with a raw
 }
 ```
 
+## Supported Models (selected)
+
+**T2V:** `seedance-v2.0-t2v` · `kling-v2.6-pro-t2v` · `veo3.1-text-to-video` · `wan2.5-text-to-video` · `hunyuan-text-to-video` · `minimax-hailuo-02-pro-t2v` · `grok-imagine-text-to-video`
+
+**I2V:** `seedance-v2.0-i2v` · `seedance-2.0-new-omni` · `kling-v2.6-pro-i2v` · `veo3.1-image-to-video` · `wan2.5-image-to-video` · `hunyuan-image-to-video`
+
+**T2I:** `flux-dev-image` · `flux-2-pro` · `flux-kontext-max-t2i` · `hidream_i1_full_image` · `gpt4o-text-to-image` · `google-imagen4-ultra` · `seedream-5.0` · `hunyuan-image-3.0`
+
+**Enhance:** `ai-image-upscale` · `topaz-image-upscale` · `ai-background-remover` · `ai-ghibli-style` · `ai-color-photo` · `ai-object-eraser`
+
+See the [full API docs](https://api.muapi.ai/docs) for 100+ endpoints.
+
 ## License
 
-MIT
+MIT © 2026
