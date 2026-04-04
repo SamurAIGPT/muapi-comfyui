@@ -317,6 +317,22 @@ class MuAPITextToImage:
         endpoint = _ep(model, custom_endpoint)
         payload = {"prompt": prompt, "aspect_ratio": aspect_ratio, **_extra(extra_params_json)}
         if negative_prompt.strip(): payload["negative_prompt"] = negative_prompt.strip()
+        
+        needs_wh = [
+            "flux-dev", "flux-schnell", "flux-2-dev", "flux-2-pro", "flux-2-flex", 
+            "flux-2-klein", "hidream_i1", "ai-anime", "wan2.", "hunyuan-image", 
+            "chroma-image", "z-image-turbo", "z-image-p"
+        ]
+        if any(endpoint.startswith(p) for p in needs_wh) and "kontext" not in endpoint:
+            mapping = {
+                "1:1": (1024, 1024), "16:9": (1344, 768), "9:16": (768, 1344),
+                "4:3": (1152, 864), "3:4": (864, 1152), "3:2": (1216, 832), "2:3": (832, 1216),
+                "21:9": (1536, 640), "9:21": (640, 1536)
+            }
+            w, h = mapping.get(aspect_ratio, (1024, 1024))
+            payload["width"] = w
+            payload["height"] = h
+
         print(f"[MuAPI T2I] {endpoint}")
         rid = _submit(api_key, endpoint, payload)
         result = _poll(api_key, rid)
