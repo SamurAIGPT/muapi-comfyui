@@ -506,7 +506,17 @@ class MuAPIImageEnhance:
         img_url = _upload_image(api_key, image)
         payload = {"image_url": img_url, **_extra(extra_params_json)}
         if face_image is not None:
-            payload["face_image_url"] = _upload_image(api_key, face_image)
+            # Determine correct key for the secondary image based on endpoint
+            key = "face_image_url"
+            if endpoint == "ai-image-face-swap":
+                key = "swap_url"
+            elif endpoint == "ai-object-eraser":
+                key = "mask_image_url"
+            elif endpoint == "add-image-watermark":
+                key = "watermark_image_url"
+            
+            payload[key] = _upload_image(api_key, face_image)
+            
         if prompt.strip(): payload["prompt"] = prompt.strip()
         print(f"[MuAPI Enhance] {endpoint}")
         rid = _submit(api_key, endpoint, payload)
@@ -541,7 +551,11 @@ class MuAPIVideoEdit:
         payload = {"video_url": video_url.strip(), **_extra(extra_params_json)}
         if prompt.strip(): payload["prompt"] = prompt.strip()
         if reference_image is not None:
-            payload["image_url"] = _upload_image(api_key, reference_image)
+            key = "image_url"
+            if endpoint == "add-video-watermark":
+                key = "watermark_image_url"
+            payload[key] = _upload_image(api_key, reference_image)
+            
         print(f"[MuAPI VideoEdit] {endpoint}")
         rid = _submit(api_key, endpoint, payload)
         result = _poll(api_key, rid)
@@ -617,8 +631,11 @@ class MuAPIGenerate:
         return {"required": {
             "endpoint": ("STRING", {"multiline": False, "default": "seedance-v2.0-t2v"}),
             "payload_json": ("STRING", {"multiline": True,
-                "default": json.dumps({"prompt": "A cinematic shot of mountains at sunrise",
-                                       "aspect_ratio": "16:9", "quality": "basic", "duration": 5}, indent=2)}),
+                "default": json.dumps({
+                    "image_url": "__file_1__",
+                    "swap_url": "__file_2__",
+                    "target_index": 0
+                }, indent=2)}),
         }, "optional": {
             "api_key": ("STRING", {"multiline": False, "default": ""}),
             "file_1": ("IMAGE",), "file_2": ("IMAGE",),
