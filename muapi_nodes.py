@@ -364,7 +364,15 @@ class MuAPIImageToImage:
         endpoint = _ep(model, custom_endpoint)
         print(f"[MuAPI I2I] Uploading image...")
         img_url = _upload_image(api_key, image)
-        payload = {"prompt": prompt, "image_url": img_url, **_extra(extra_params_json)}
+        
+        # Determine if endpoint needs images_list (array) or image_url (string)
+        # Kontext, Wan2.x, Vidu, Seedream, Seedance usually use images_list
+        needs_list = any(x in endpoint for x in ["kontext", "wan2.", "vidu", "seedream", "seedance"])
+        if needs_list:
+            payload = {"prompt": prompt, "images_list": [img_url], **_extra(extra_params_json)}
+        else:
+            payload = {"prompt": prompt, "image_url": img_url, **_extra(extra_params_json)}
+            
         print(f"[MuAPI I2I] {endpoint}")
         rid = _submit(api_key, endpoint, payload)
         result = _poll(api_key, rid)
