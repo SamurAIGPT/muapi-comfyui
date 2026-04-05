@@ -444,9 +444,19 @@ class MuAPIImageToVideo:
                 print(f"[MuAPI I2V] Uploading image {i}...")
                 images_list.append(_upload_image(api_key, img))
         if not images_list: raise ValueError("At least one image required.")
-        payload = {"prompt": prompt, "images_list": images_list,
-                   "aspect_ratio": aspect_ratio, "quality": quality,
-                   "duration": duration, **_extra(extra_params_json)}
+        
+        # Determine if endpoint needs images_list (array) or image_url (string)
+        # Seedance and Vidu usually use images_list. Kling, Luma, Wan, VMT use image_url.
+        needs_list = any(x in endpoint for x in ["seedance", "vidu"])
+        
+        payload = {"prompt": prompt, "aspect_ratio": aspect_ratio, 
+                   "quality": quality, "duration": duration, **_extra(extra_params_json)}
+        
+        if needs_list:
+            payload["images_list"] = images_list
+        else:
+            payload["image_url"] = images_list[0]
+            
         print(f"[MuAPI I2V] {endpoint}  {len(images_list)} image(s)")
         rid = _submit(api_key, endpoint, payload)
         result = _poll(api_key, rid)
