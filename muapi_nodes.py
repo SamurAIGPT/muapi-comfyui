@@ -222,14 +222,17 @@ def _poll(api_key, request_id):
     while time.time() < deadline:
         resp = requests.get(f"{BASE_URL}/predictions/{request_id}/result",
                             headers={"x-api-key": api_key}, timeout=30)
-        _check(resp)
+        _check(resp, skip_400=True)
         data = resp.json()
         status = data.get("status")
         print(f"[MuAPI] {status}  {request_id}")
         if status == "completed":
             return data
-        if status == "failed":
-            raise RuntimeError(f"Failed: {data.get('error', 'unknown')}")
+        if status == "failed" or resp.status_code == 400:
+            error = data.get("error", "unknown error")
+            if isinstance(error, dict):
+                error = error.get("message", "unknown error")
+            raise RuntimeError(f"Failed: {error}")
         time.sleep(POLL_INTERVAL)
     raise RuntimeError(f"Timeout {request_id}")
 
@@ -244,13 +247,15 @@ def _output_url(result):
             return str(result[k])
     raise RuntimeError(f"No output URL: {result}")
 
-def _check(resp):
+def _check(resp, skip_400=False):
     if resp.status_code == 401:
         raise RuntimeError("Auth failed — check API key.")
     if resp.status_code == 402:
         raise RuntimeError("Insufficient credits — top up at muapi.ai")
     if resp.status_code == 429:
         raise RuntimeError("Rate limited — retry later.")
+    if resp.status_code == 400 and skip_400:
+        return
     resp.raise_for_status()
 
 def _img_from_url(url):
@@ -365,9 +370,8 @@ class MuAPIImageToImage:
         print(f"[MuAPI I2I] Uploading image...")
         img_url = _upload_image(api_key, image)
         
-        # Determine if endpoint needs images_list (array) or image_url (string)
-        # Kontext, Wan2.x, Vidu, Seedream, Seedance usually use images_list
-        needs_list = any(x in endpoint for x in ["kontext", "wan2.", "vidu", "seedream", "seedance"])
+        # Detect if endpoint needs images_list (array) or image_url (string)
+        needs_list = any(x in endpoint for x in ["kontext", "wan2.", "vidu", "seedream", "seedance", "pixverse"])
         if needs_list:
             payload = {"prompt": prompt, "images_list": [img_url], **_extra(extra_params_json)}
         else:
@@ -420,7 +424,7 @@ class MuAPIImageToVideo:
             "prompt": ("STRING", {"multiline": True, "default": "The character in @image1 walks through a beautiful garden"}),
             "aspect_ratio": (["16:9", "9:16", "1:1", "4:3", "3:4", "21:9"], {"default": "16:9"}),
             "quality": (["basic", "high"], {"default": "basic"}),
-            "duration": ("INT", {"default": 5, "min": 4, "max": 30, "step": 1}),
+            "duration": ("INT", {"default": 5, "min": 5, "max": 10, "step": 5}),
         }, "optional": {
             "api_key": ("STRING", {"multiline": False, "default": ""}),
             "image_1": ("IMAGE",), "image_2": ("IMAGE",),
@@ -445,9 +449,9 @@ class MuAPIImageToVideo:
                 images_list.append(_upload_image(api_key, img))
         if not images_list: raise ValueError("At least one image required.")
         
-        # Determine if endpoint needs images_list (array) or image_url (string)
-        # Seedance and Vidu usually use images_list. Kling, Luma, Wan, VMT use image_url.
-        needs_list = any(x in endpoint for x in ["seedance", "vidu"])
+        # Detect if endpoint needs images_list (array) or image_url (string)
+        # Seedance, Vidu, Kontext, Wan, Pixverse use images_list. Kling, Luma, VMT use image_url.
+        needs_list = any(x in endpoint for x in ["seedance", "vidu", "kontext", "wan", "pixverse"])
         
         payload = {"prompt": prompt, "aspect_ratio": aspect_ratio, 
                    "quality": quality, "duration": duration, **_extra(extra_params_json)}
@@ -471,10 +475,9 @@ class MuAPIExtendVideo:
             "model": (EXTEND_ENDPOINTS, {"default": "seedance-v2.0-extend"}),
             "request_id": ("STRING", {"multiline": False, "default": ""}),
             "quality": (["basic", "high"], {"default": "basic"}),
-            "duration": ("INT", {"default": 5, "min": 4, "max": 30, "step": 1}),
+            "duration": ("INT", {"default": 5, "min": 5, "max": 10, "step": 5}),
         }, "optional": {
             "api_key": ("STRING", {"multiline": False, "default": ""}),
-            "prompt": ("STRING", {"multiline": True, "default": ""}),
             "custom_endpoint": ("STRING", {"multiline": False, "default": ""}),
             "extra_params_json": ("STRING", {"multiline": True, "default": "{}"}),
         }}
@@ -484,13 +487,12 @@ class MuAPIExtendVideo:
     CATEGORY = "🎬 MuAPI"
 
     def run(self, model, request_id, quality, duration,
-            api_key="", prompt="", custom_endpoint="", extra_params_json="{}"):
+            api_key="", custom_endpoint="", extra_params_json="{}"):
         api_key = _load_api_key(api_key)
         if not request_id.strip(): raise ValueError("request_id required.")
         endpoint = _ep(model, custom_endpoint)
         payload = {"request_id": request_id.strip(), "quality": quality,
                    "duration": duration, **_extra(extra_params_json)}
-        if prompt.strip(): payload["prompt"] = prompt.strip()
         print(f"[MuAPI Extend] {endpoint}")
         new_id = _submit(api_key, endpoint, payload)
         result = _poll(api_key, new_id)
@@ -506,8 +508,7 @@ class MuAPIImageEnhance:
             "image": ("IMAGE",),
         }, "optional": {
             "api_key": ("STRING", {"multiline": False, "default": ""}),
-            "face_image": ("IMAGE",),
-            "prompt": ("STRING", {"multiline": True, "default": ""}),
+            "swap_image": ("IMAGE",),
             "custom_endpoint": ("STRING", {"multiline": False, "default": ""}),
             "extra_params_json": ("STRING", {"multiline": True, "default": "{}"}),
         }}
@@ -516,26 +517,26 @@ class MuAPIImageEnhance:
     FUNCTION = "run"
     CATEGORY = "✨ MuAPI"
 
-    def run(self, model, image, api_key="", face_image=None,
-            prompt="", custom_endpoint="", extra_params_json="{}"):
+    def run(self, model, image, api_key="", swap_image=None, custom_endpoint="", extra_params_json="{}"):
         api_key = _load_api_key(api_key)
         endpoint = _ep(model, custom_endpoint)
-        print(f"[MuAPI Enhance] Uploading image...")
+        print(f"[MuAPI Enhance] Uploading base image...")
         img_url = _upload_image(api_key, image)
         payload = {"image_url": img_url, **_extra(extra_params_json)}
-        if face_image is not None:
+        
+        if swap_image is not None:
             # Determine correct key for the secondary image based on endpoint
             key = "face_image_url"
-            if endpoint == "ai-image-face-swap":
+            if "face-swap" in endpoint:
                 key = "swap_url"
-            elif endpoint == "ai-object-eraser":
+            elif "object-eraser" in endpoint:
                 key = "mask_image_url"
-            elif endpoint == "add-image-watermark":
+            elif "watermark" in endpoint:
                 key = "watermark_image_url"
             
-            payload[key] = _upload_image(api_key, face_image)
+            print(f"[MuAPI Enhance] Uploading secondary image (as {key})...")
+            payload[key] = _upload_image(api_key, swap_image)
             
-        if prompt.strip(): payload["prompt"] = prompt.strip()
         print(f"[MuAPI Enhance] {endpoint}")
         rid = _submit(api_key, endpoint, payload)
         result = _poll(api_key, rid)
@@ -552,7 +553,7 @@ class MuAPIVideoEdit:
         }, "optional": {
             "api_key": ("STRING", {"multiline": False, "default": ""}),
             "prompt": ("STRING", {"multiline": True, "default": ""}),
-            "reference_image": ("IMAGE",),
+            "secondary_image": ("IMAGE",),
             "custom_endpoint": ("STRING", {"multiline": False, "default": ""}),
             "extra_params_json": ("STRING", {"multiline": True, "default": "{}"}),
         }}
@@ -562,17 +563,22 @@ class MuAPIVideoEdit:
     CATEGORY = "🎬 MuAPI"
 
     def run(self, model, video_url, api_key="", prompt="",
-            reference_image=None, custom_endpoint="", extra_params_json="{}"):
+            secondary_image=None, custom_endpoint="", extra_params_json="{}"):
         api_key = _load_api_key(api_key)
         if not video_url.strip(): raise ValueError("video_url required.")
         endpoint = _ep(model, custom_endpoint)
         payload = {"video_url": video_url.strip(), **_extra(extra_params_json)}
         if prompt.strip(): payload["prompt"] = prompt.strip()
-        if reference_image is not None:
+        
+        if secondary_image is not None:
+            # For video face swap, face image often goes to "image_url"
+            # For watermark, it usually goes to "watermark_image_url"
             key = "image_url"
-            if endpoint == "add-video-watermark":
+            if "watermark" in endpoint:
                 key = "watermark_image_url"
-            payload[key] = _upload_image(api_key, reference_image)
+            
+            print(f"[MuAPI VideoEdit] Uploading secondary image (as {key})...")
+            payload[key] = _upload_image(api_key, secondary_image)
             
         print(f"[MuAPI VideoEdit] {endpoint}")
         rid = _submit(api_key, endpoint, payload)
