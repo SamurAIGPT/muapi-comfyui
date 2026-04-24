@@ -371,7 +371,7 @@ class MuAPIImageToImage:
         img_url = _upload_image(api_key, image)
         
         # Detect if endpoint needs images_list (array) or image_url (string)
-        needs_list = any(x in endpoint for x in ["kontext", "wan2.", "vidu", "seedream", "seedance", "pixverse"])
+        needs_list = any(x in endpoint for x in ["kontext", "wan2.", "vidu", "seedream", "seedance", "pixverse", "flux-2"])
         if needs_list:
             payload = {"prompt": prompt, "images_list": [img_url], **_extra(extra_params_json)}
         else:
