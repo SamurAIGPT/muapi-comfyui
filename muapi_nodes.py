@@ -50,6 +50,18 @@ T2I_ENDPOINTS = [
     "grok-imagine-text-to-image", "chroma-image",
     "vidu-q2-text-to-image", "ai-anime-generator",
     "z-image-base", "z-image-turbo", "z-image-p",
+    "qwen-image", "qwen-image-2.0", "qwen-image-2.0-pro",
+    "nano-banana", "nano-banana-pro", "nano-banana-2",
+    "midjourney-v7-text-to-image", "midjourney-v7", "midjourney-v8", "midjourney-niji",
+    "leonardoai-lucid-origin", "leonardoai-phoenix-1.0",
+    "reve-text-to-image",
+    "sdxl-image", "perfect-pony-xl", "neta-lumina",
+    "kling-o3-image",
+    "gpt-image-2-text-to-image",
+    "grok-imagine-text-to-image-quality",
+    "wan2.7-text-to-image", "wan2.7-text-to-image-pro",
+    "flux-2-klein-4b-turbo", "flux-2-klein-9b-turbo",
+    "flux-2-klein-4b-text-to-image-lora", "flux-2-klein-9b-text-to-image-lora",
     "straico-generate-image",
     "custom",
 ]
@@ -63,9 +75,28 @@ I2I_ENDPOINTS = [
     "bytedance-seededit-image", "bytedance-seedream-edit-v4",
     "bytedance-seedream-v4.5-edit", "seedream-5.0-edit", "seedance-v2.0-character",
     "grok-imagine-image-to-image", "higgsfield-soul-image-to-image",
-    "kling-o1-edit-image", "ideogram-v3-reframe",
+    "kling-o1-edit-image", "ideogram-v3-reframe", "ideogram-character",
     "wan2.5-image-edit", "wan2.6-image-edit",
     "flux-redux", "flux-pulid", "tiktok-carousel",
+    "nano-banana-edit", "nano-banana-effects", "nano-banana-pro-edit",
+    "nano-banana-2-edit",
+    "qwen-image-edit", "qwen-image-edit-2511",
+    "qwen-image-edit-plus", "qwen-image-edit-plus-lora",
+    "qwen-text-to-image-2512",
+    "qwen-image-2.0-edit", "qwen-image-2.0-pro-edit",
+    "reve-image-edit",
+    "midjourney-v7-image-to-image",
+    "midjourney-v7-omni-reference", "midjourney-v7-style-reference",
+    "minimax-01-subject-reference",
+    "vidu-q2-reference-to-image",
+    "kling-o3-image-edit",
+    "gpt-image-2-image-to-image",
+    "hf-soul-image-to-image",
+    "photo-pack", "portrait-stylist",
+    "seedance-2-character",
+    "wan2.7-image-edit", "wan2.7-image-edit-pro",
+    "flux-2-klein-4b-turbo-edit", "flux-2-klein-9b-turbo-edit",
+    "flux-2-klein-4b-edit-lora", "flux-2-klein-9b-edit-lora",
     "custom",
 ]
 
@@ -75,6 +106,7 @@ T2V_ENDPOINTS = [
     "seedance-2.0-new-t2v", "seedance-2.0-t2v-480p",
     "kling-o1-text-to-video", "kling-v2.1-master-t2v",
     "kling-v2.5-turbo-pro-t2v", "kling-v2.6-pro-t2v",
+    "kling-v3.0-pro-text-to-video", "kling-v3.0-standard-text-to-video",
     "veo3-text-to-video", "veo3-fast-text-to-video",
     "veo3.1-text-to-video", "veo3.1-fast-text-to-video", "veo3.1-4k-video",
     "grok-imagine-text-to-video",
@@ -82,8 +114,33 @@ T2V_ENDPOINTS = [
     "wan2.2-5b-fast-t2v", "wan2.5-text-to-video", "wan2.5-text-to-video-fast",
     "wan2.6-text-to-video",
     "hunyuan-text-to-video", "hunyuan-fast-text-to-video",
-    "minimax-hailuo-02-std-t2v", "minimax-hailuo-02-pro-t2v",
-    "vidu-v2.0-t2v", "pixverse-t2v",
+    "minimax-hailuo-02-std-t2v", "minimax-hailuo-02-standard-t2v",
+    "minimax-hailuo-02-pro-t2v",
+    "minimax-hailuo-2.3-pro-t2v", "minimax-hailuo-2.3-standard-t2v",
+    "ltx-2-19b-text-to-video", "ltx-2-fast-text-to-video", "ltx-2-pro-text-to-video",
+    "ltx-2.3-text-to-video",
+    "openai-sora", "openai-sora-2-text-to-video",
+    "openai-sora-2-standard-text-to-video",
+    "openai-sora-2-pro-text-to-video", "openai-sora-2-pro-storyboard",
+    "runway-text-to-video",
+    "pixverse-t2v", "pixverse-v4.5-t2v", "pixverse-v5-t2v", "pixverse-v5.5-t2v",
+    "pixverse-v6-t2v",
+    "ovi-text-to-video",
+    "vidu-v2.0-t2v",
+    "vidu-q2-pro-text-to-video", "vidu-q2-turbo-text-to-video",
+    "vidu-q3-pro-text-to-video", "vidu-q3-turbo-text-to-video",
+    "veo-4-text-to-video", "veo3.1-lite-text-to-video",
+    "kling-v3.0-4k-text-to-video",
+    "kling-v3.0-omni-standard-text-to-video",
+    "kling-v3.0-omni-pro-text-to-video",
+    "kling-v3.0-omni-4k-text-to-video",
+    "seedance-2-text-to-video", "seedance-2-text-to-video-fast",
+    "seedance-2-vip-text-to-video", "seedance-2-vip-text-to-video-fast",
+    "sd-2-vip-text-to-video-1080p", "sd-2-vip-text-to-video-fast-1080p",
+    "sd-2-vip-extend", "sd-2-vip-extend-1080p",
+    "grok-imagine-extend",
+    "happy-horse-1-text-to-video-720p", "happy-horse-1-text-to-video-1080p",
+    "wan2.7-text-to-video",
     "custom",
 ]
 
@@ -92,21 +149,63 @@ I2V_ENDPOINTS = [
     "seedance-lite-i2v", "seedance-v1.5-pro-i2v", "seedance-v1.5-pro-i2v-fast",
     "seedance-2.0-new-omni", "seedance-2.0-new-first-last",
     "seedance-2.0-i2v-480p", "seedance-v2.0-omni-reference",
+    "seedance-lite-reference-to-video",
     "kling-o1-image-to-video", "kling-o1-standard-image-to-video",
+    "kling-o1-reference-to-video", "kling-o1-standard-reference-to-video",
     "kling-v2.1-master-i2v", "kling-v2.1-pro-i2v", "kling-v2.1-standard-i2v",
     "kling-v2.5-turbo-pro-i2v", "kling-v2.5-turbo-std-i2v",
-    "kling-v2.6-pro-i2v", "kling-v3.0-pro-image-to-video",
+    "kling-v2.6-pro-i2v",
+    "kling-v3.0-pro-image-to-video", "kling-v3.0-standard-image-to-video",
     "veo3-image-to-video", "veo3-fast-image-to-video",
     "veo3.1-image-to-video", "veo3.1-fast-image-to-video",
+    "veo3.1-reference-to-video",
     "grok-imagine-image-to-video",
     "wan2.1-image-to-video", "wan2.1-lora-i2v",
+    "wan2.1-reference-video",
     "wan2.2-image-to-video", "wan2.2-spicy-image-to-video",
     "wan2.5-image-to-video", "wan2.5-image-to-video-fast",
     "wan2.6-image-to-video",
     "hunyuan-image-to-video",
     "vidu-v2.0-i2v", "vidu-q2-pro-start-end-video",
+    "vidu-q1-reference", "vidu-q2-reference", "vidu-q2-turbo-start-end-video",
     "higgsfield-dop-image-to-video", "infinitetalk-image-to-video",
-    "midjourney-i2v",
+    "midjourney-i2v", "midjourney-v7-image-to-video",
+    "leonardoai-motion-2.0",
+    "ltx-2-19b-image-to-video", "ltx-2-fast-image-to-video", "ltx-2-pro-image-to-video",
+    "ltx-2.3-image-to-video",
+    "minimax-hailuo-02-pro-i2v", "minimax-hailuo-02-standard-i2v",
+    "minimax-hailuo-2.3-pro-i2v", "minimax-hailuo-2.3-standard-i2v",
+    "minimax-hailuo-2.3-fast",
+    "openai-sora-2-image-to-video", "openai-sora-2-standard-image-to-video",
+    "openai-sora-2-pro-image-to-video",
+    "ovi-image-to-video",
+    "pixverse-v4.5-i2v", "pixverse-v5-i2v", "pixverse-v5.5-i2v",
+    "pixverse-v6-i2v", "pixverse-v6-transition",
+    "runway-image-to-video", "runway-act-two-i2v",
+    "video-effects",
+    "generate_wan_ai_effects",
+    "veo-4-image-to-video", "veo3.1-lite-image-to-video",
+    "kling-v3.0-4k-image-to-video",
+    "kling-v3.0-omni-standard-image-to-video",
+    "kling-v3.0-omni-pro-image-to-video",
+    "kling-v3.0-omni-4k-image-to-video",
+    "seedance-2-image-to-video", "seedance-2-image-to-video-fast",
+    "seedance-2-first-last-frame", "seedance-2-first-last-frame-fast",
+    "seedance-2-omni-reference-no-video", "seedance-2-omni-reference-no-video-fast",
+    "seedance-2-vip-image-to-video", "seedance-2-vip-image-to-video-fast",
+    "seedance-2-vip-first-last-frame", "seedance-2-vip-first-last-frame-fast",
+    "seedance-2-vip-omni-reference", "seedance-2-vip-omni-reference-fast",
+    "seedance-2.0-omni-reference", "seedance-2.0-omni-reference-480p",
+    "sd-2-vip-image-to-video-1080p", "sd-2-vip-image-to-video-fast-1080p",
+    "sd-2-vip-first-last-frame-1080p",
+    "sd-2-vip-omni-reference-1080p", "sd-2-vip-omni-reference-fast-1080p",
+    "happy-horse-1-image-to-video-720p", "happy-horse-1-image-to-video-1080p",
+    "happy-horse-1-reference-to-video-720p", "happy-horse-1-reference-to-video-1080p",
+    "hf-dop-image-to-video",
+    "vidu-q2-pro-image-to-video", "vidu-q2-turbo-image-to-video",
+    "vidu-q3-pro-image-to-video", "vidu-q3-turbo-image-to-video",
+    "vidu-q3-pro-first-last-frames", "vidu-q3-turbo-first-last-frames",
+    "wan2.7-image-to-video", "wan2.7-reference-to-video",
     "custom",
 ]
 
@@ -114,6 +213,11 @@ EXTEND_ENDPOINTS = [
     "seedance-v2.0-extend",
     "seedance-v1.5-pro-video-extend", "seedance-v1.5-pro-video-extend-fast",
     "veo3.1-extend-video", "wan2.2-spicy-video-extend",
+    "grok-imagine-extend",
+    "sd-2-vip-extend", "sd-2-vip-extend-1080p",
+    "ltx-2.3-video-extend",
+    "pixverse-v6-extend",
+    "wan2.7-video-extend",
     "custom",
 ]
 
@@ -142,18 +246,47 @@ VIDEO_EDIT_ENDPOINTS = [
     "ai-clipping",
     "wan2.2-edit-video", "wan2.2-animate",
     "heygen-video-translate", "infinitetalk-video-to-video",
-    "kling-o1-video-edit", "kling-o1-video-edit-fast",
+    "kling-o1-video-edit", "kling-o1-video-edit-fast", "kling-o1-standard-video-edit",
+    "kling-v2.6-pro-motion-control", "kling-v2.6-std-motion-control",
+    "kling-v3.0-pro-motion-control", "kling-v3.0-std-motion-control",
+    "luma-flash-reframe", "luma-modify-video",
+    "runway-act-two-v2v", "runway-aleph-v2v",
+    "remix-video",
+    "mmaudio-v2/video-to-video",
+    "ai-captions", "autocrop", "video-combiner",
+    "ltx-2.3-video-extend",
+    "pixverse-v6-extend",
+    "wan2.7-video-edit", "wan2.7-video-extend",
+    "happy-horse-1-video-edit-720p", "happy-horse-1-video-edit-1080p",
+    "seedance-2-video-watermark-remover-pro",
+    "seedance-2.0-watermark-remover",
     "custom",
 ]
 
 LIPSYNC_ENDPOINTS = [
     "sync-lipsync", "veed-lipsync", "creatify-lipsync",
+    "latentsync-video",
+    "ltx-2-19b-lipsync", "ltx-2.3-lipsync",
+    "kling-v1-avatar-pro", "kling-v1-avatar-standard",
+    "kling-v2-avatar-pro", "kling-v2-avatar-standard",
+    "wan2.2-speech-to-video",
     "custom",
 ]
 
 AUDIO_ENDPOINTS = [
     "suno-create-music", "suno-remix-music", "suno-extend-music",
+    "suno-add-instrumental", "suno-add-vocals",
+    "suno-generate-mashup", "suno-generate-sounds",
     "mmaudio-text-to-audio", "mmaudio-video-to-audio",
+    "mmaudio-v2/text-to-audio",
+    "minimax-speech-2.6-hd", "minimax-speech-2.6-turbo", "minimax-voice-clone",
+    "custom",
+]
+
+IMAGE_TO_3D_ENDPOINTS = [
+    "meshy-6-text-to-3d", "meshy-6-image-to-3d", "meshy-6-multi-image-to-3d",
+    "tripo3d-p1-text-to-3d", "tripo3d-p1-image-to-3d",
+    "tripo3d-h31-text-to-3d", "tripo3d-h31-image-to-3d", "tripo3d-h31-multiview-to-3d",
     "custom",
 ]
 
@@ -326,9 +459,10 @@ class MuAPITextToImage:
         if negative_prompt.strip(): payload["negative_prompt"] = negative_prompt.strip()
         
         needs_wh = [
-            "flux-dev", "flux-schnell", "flux-2-dev", "flux-2-pro", "flux-2-flex", 
-            "flux-2-klein", "hidream_i1", "ai-anime", "wan2.", "hunyuan-image", 
-            "chroma-image", "z-image-turbo", "z-image-p"
+            "flux-dev", "flux-schnell", "flux-2-dev", "flux-2-pro", "flux-2-flex",
+            "flux-2-klein", "hidream_i1", "ai-anime", "wan2.", "hunyuan-image",
+            "chroma-image", "z-image-turbo", "z-image-p",
+            "sdxl-image", "perfect-pony-xl", "neta-lumina",
         ]
         if any(endpoint.startswith(p) for p in needs_wh) and "kontext" not in endpoint:
             mapping = {
@@ -371,7 +505,10 @@ class MuAPIImageToImage:
         img_url = _upload_image(api_key, image)
         
         # Detect if endpoint needs images_list (array) or image_url (string)
-        needs_list = any(x in endpoint for x in ["kontext", "wan2.", "vidu", "seedream", "seedance", "pixverse", "flux-2"])
+        needs_list = any(x in endpoint for x in [
+            "kontext", "wan2.", "vidu", "seedream", "seedance", "pixverse", "flux-2",
+            "nano-banana", "qwen-image-edit", "openai-sora", "kling-o3",
+        ])
         if needs_list:
             payload = {"prompt": prompt, "images_list": [img_url], **_extra(extra_params_json)}
         else:
@@ -450,8 +587,15 @@ class MuAPIImageToVideo:
         if not images_list: raise ValueError("At least one image required.")
         
         # Detect if endpoint needs images_list (array) or image_url (string)
-        # Seedance, Vidu, Kontext, Wan, Pixverse use images_list. Kling, Luma, VMT use image_url.
-        needs_list = any(x in endpoint for x in ["seedance", "vidu", "kontext", "wan", "pixverse"])
+        # Seedance, Vidu, Kontext, Wan, Pixverse, Sora-2, Nano-banana, Veo-4,
+        # Happy-Horse, Kling-Omni/4k use images_list.
+        # Kling, Luma, Runway, Hailuo, LTX-2, Leonardo, Midjourney, hf-dop use image_url.
+        needs_list = any(x in endpoint for x in [
+            "seedance", "sd-2-", "vidu", "kontext", "wan", "pixverse",
+            "openai-sora", "nano-banana",
+            "veo-4", "happy-horse",
+            "kling-v3.0-omni", "kling-v3.0-4k",
+        ])
         
         payload = {"prompt": prompt, "aspect_ratio": aspect_ratio, 
                    "quality": quality, "duration": duration, **_extra(extra_params_json)}
@@ -710,6 +854,53 @@ class MuAPIGenerate:
         return (out_url, preview, rid, json.dumps(result, indent=2))
 
 
+class MuAPIImageTo3D:
+    """
+    Generate 3D assets (GLB/OBJ) from text or an image.
+    Text-to-3D: leave image empty. Image-to-3D: provide image_1 (and image_2/3 for multiview).
+    """
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {"required": {
+            "model": (IMAGE_TO_3D_ENDPOINTS, {"default": "tripo3d-p1-image-to-3d"}),
+            "prompt": ("STRING", {"multiline": True, "default": ""}),
+        }, "optional": {
+            "api_key": ("STRING", {"multiline": False, "default": ""}),
+            "image_1": ("IMAGE",), "image_2": ("IMAGE",), "image_3": ("IMAGE",),
+            "custom_endpoint": ("STRING", {"multiline": False, "default": ""}),
+            "extra_params_json": ("STRING", {"multiline": True, "default": "{}"}),
+        }}
+    RETURN_TYPES = ("STRING", "STRING")
+    RETURN_NAMES = ("model_url", "request_id")
+    FUNCTION = "run"
+    CATEGORY = "🧊 MuAPI"
+
+    def run(self, model, prompt, api_key="",
+            image_1=None, image_2=None, image_3=None,
+            custom_endpoint="", extra_params_json="{}"):
+        api_key = _load_api_key(api_key)
+        endpoint = _ep(model, custom_endpoint)
+        images = []
+        for i, img in enumerate([image_1, image_2, image_3], 1):
+            if img is not None:
+                print(f"[MuAPI 3D] Uploading image {i}...")
+                images.append(_upload_image(api_key, img))
+
+        payload = _extra(extra_params_json)
+        if prompt.strip(): payload["prompt"] = prompt.strip()
+        if images:
+            if "multi" in endpoint or "multiview" in endpoint:
+                payload["images_list"] = images
+            else:
+                payload["image_url"] = images[0]
+
+        print(f"[MuAPI 3D] {endpoint}")
+        rid = _submit(api_key, endpoint, payload)
+        result = _poll(api_key, rid)
+        url = _output_url(result)
+        return (url, rid)
+
+
 class MuAPIApiKey:
     """
     Store your MuAPI API key once and wire it to any node.
@@ -742,6 +933,7 @@ NODE_CLASS_MAPPINGS = {
     "MuAPIVideoEdit":    MuAPIVideoEdit,
     "MuAPILipsync":      MuAPILipsync,
     "MuAPIAudio":        MuAPIAudio,
+    "MuAPIImageTo3D":    MuAPIImageTo3D,
     "MuAPIGenerate":     MuAPIGenerate,
 }
 
@@ -756,5 +948,6 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "MuAPIVideoEdit":    "🎬 MuAPI Video Edit",
     "MuAPILipsync":      "🎬 MuAPI Lipsync",
     "MuAPIAudio":        "🎵 MuAPI Audio",
+    "MuAPIImageTo3D":    "🧊 MuAPI Image/Text to 3D",
     "MuAPIGenerate":     "🎬 MuAPI Generate (Generic)",
 }
