@@ -74,7 +74,7 @@ I2I_ENDPOINTS = [
     "gpt4o-edit", "gpt4o-image-to-image", "gpt-image-1.5-edit",
     "bytedance-seededit-image", "bytedance-seedream-edit-v4",
     "bytedance-seedream-v4.5-edit", "seedream-5.0-edit", "seedance-v2.0-character",
-    "grok-imagine-image-to-image", "higgsfield-soul-image-to-image",
+    "grok-imagine-image-to-image",
     "kling-o1-edit-image", "ideogram-v3-reframe", "ideogram-character",
     "wan2.5-image-edit", "wan2.6-image-edit",
     "flux-redux", "flux-pulid", "tiktok-carousel",
@@ -91,7 +91,6 @@ I2I_ENDPOINTS = [
     "vidu-q2-reference-to-image",
     "kling-o3-image-edit",
     "gpt-image-2-image-to-image",
-    "hf-soul-image-to-image",
     "photo-pack", "portrait-stylist",
     "seedance-2-character",
     "wan2.7-image-edit", "wan2.7-image-edit-pro",
@@ -168,7 +167,7 @@ I2V_ENDPOINTS = [
     "hunyuan-image-to-video",
     "vidu-v2.0-i2v", "vidu-q2-pro-start-end-video",
     "vidu-q1-reference", "vidu-q2-reference", "vidu-q2-turbo-start-end-video",
-    "higgsfield-dop-image-to-video", "infinitetalk-image-to-video",
+    "infinitetalk-image-to-video",
     "midjourney-i2v", "midjourney-v7-image-to-video",
     "leonardoai-motion-2.0",
     "ltx-2-19b-image-to-video", "ltx-2-fast-image-to-video", "ltx-2-pro-image-to-video",
@@ -201,7 +200,6 @@ I2V_ENDPOINTS = [
     "sd-2-vip-omni-reference-1080p", "sd-2-vip-omni-reference-fast-1080p",
     "happy-horse-1-image-to-video-720p", "happy-horse-1-image-to-video-1080p",
     "happy-horse-1-reference-to-video-720p", "happy-horse-1-reference-to-video-1080p",
-    "hf-dop-image-to-video",
     "vidu-q2-pro-image-to-video", "vidu-q2-turbo-image-to-video",
     "vidu-q3-pro-image-to-video", "vidu-q3-turbo-image-to-video",
     "vidu-q3-pro-first-last-frames", "vidu-q3-turbo-first-last-frames",
@@ -589,7 +587,7 @@ class MuAPIImageToVideo:
         # Detect if endpoint needs images_list (array) or image_url (string)
         # Seedance, Vidu, Kontext, Wan, Pixverse, Sora-2, Nano-banana, Veo-4,
         # Happy-Horse, Kling-Omni/4k use images_list.
-        # Kling, Luma, Runway, Hailuo, LTX-2, Leonardo, Midjourney, hf-dop use image_url.
+        # Kling, Luma, Runway, Hailuo, LTX-2, Leonardo, Midjourney use image_url.
         needs_list = any(x in endpoint for x in [
             "seedance", "sd-2-", "vidu", "kontext", "wan", "pixverse",
             "openai-sora", "nano-banana",
