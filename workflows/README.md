@@ -135,6 +135,7 @@ same pipeline.
 | `MuAPI_Skill_ProductVideoAdMaker.json` | flux-2-pro-edit → wan2.5 i2v |
 | `MuAPI_Skill_TalkingBabyVideo.json` | wan2.5 baby → grok-imagine i2v |
 | `MuAPI_Skill_AiFightScene.json` | gpt-image-2 16-cell board → seedance i2v |
+| `MuAPI_Skill_FreezeEffectVideo.json` | photo → seedance i2v time-stop cinematic |
 | `MuAPI_Skill_UGCAdsWorkflow.json` | gpt-image-2 UGC scene → veo3.1 |
 | `MuAPI_Skill_SocialMediaVideo.json` | imagen4 hero → veo3.1 parallax |
 

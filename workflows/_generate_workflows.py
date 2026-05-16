@@ -1478,6 +1478,30 @@ WORKFLOWS = {
         "links": [("board", 0, "anim", 0)],
     },
 
+    "MuAPI_Skill_FreezeEffectVideo.json": {
+        "nodes": [
+            {"handle": "photo", "type": "LoadImage"},
+            {"handle": "freeze", "type": "MuAPIImageToVideo", "widgets": {
+                "model": "seedance-v2.0-i2v",
+                "prompt": "Ultra-realistic, shot on Arri Alexa Mini, 35mm lens, moody sports "
+                          "bar interior with neon accents, volumetric haze, shallow DOF. "
+                          "The person from @image1 walks confidently through a packed crowd "
+                          "and snaps their fingers — a spherical shockwave ripples outward and "
+                          "everything freezes mid-motion: golden arcs of beer suspended in air, "
+                          "popcorn floating, people locked mid-cheer. Only the subject moves, "
+                          "tracking backward through the frozen scene, plucks a kernel from "
+                          "midair, whispers 'perfect', then snaps again — a reverse shockwave "
+                          "resumes motion and the celebration explodes back to life. "
+                          "Sound: cheer → snap → bass drop → silence → footsteps → snap → cheer.",
+                "aspect_ratio": "16:9", "quality": "high", "duration": 15,
+            }},
+            {"handle": "save", "type": "MuAPIVideoSaver", "widgets": {
+                "save_subfolder": "muapi_videos", "filename_prefix": "freeze_effect",
+            }},
+        ],
+        "links": [("photo", 0, "freeze", 0)],
+    },
+
     "MuAPI_Skill_UGCAdsWorkflow.json": {
         "nodes": [
             {"handle": "scene", "type": "MuAPITextToImage", "widgets": {
