@@ -1016,6 +1016,31 @@ WORKFLOWS = {
         "links": [("ref", 0, "grid", 0), ("grid", 0, "save", 0)],
     },
 
+    "MuAPI_Skill_ColorAnalysisBoard.json": {
+        "nodes": [
+            {"handle": "ref", "type": "LoadImage"},
+            {"handle": "board", "type": "MuAPIImageToImage", "widgets": {
+                "model": "gpt-image-2-image-to-image",
+                "prompt": "Create a high-end editorial \"Color Analysis Board\" from this portrait "
+                          "in a luxury fashion magazine style (Dior / Ralph Lauren aesthetic). "
+                          "Clean beige/ivory background, warm tones, soft diffused lighting, "
+                          "ultra-detailed photorealistic quality, consistent lighting, minimal "
+                          "elegant typography, grid-based layout.\n\n"
+                          "Main portrait: enhanced natural beauty (same identity, smooth skin, "
+                          "soft glow, realistic texture). Top section: \"Your Best Colors\" with "
+                          "fabric swatches. Undertone panel: warm / neutral / cool with marked "
+                          "result. Colors to avoid. Neutrals that work. Prints that flatter. "
+                          "Makeup guide: eyeshadows, blush, lips, highlighter. \"You in your "
+                          "colors\": multiple outfit variations. Hair colors: best. Jewelry. "
+                          "Style notes. Capsule wardrobe: coordinated outfits, shoes, bags, "
+                          "accessories.",
+                "extra_params_json": "{\"image_size\": \"3840x2160\", \"background\": \"auto\", \"output_format\": \"png\", \"quality\": \"auto\", \"moderation\": \"low\"}",
+            }},
+            {"handle": "save", "type": "SaveImage", "widgets": {"filename_prefix": "color_analysis_board"}},
+        ],
+        "links": [("ref", 0, "board", 0), ("board", 0, "save", 0)],
+    },
+
     "MuAPI_Skill_Brochure.json": {
         "nodes": [
             {"handle": "cover", "type": "MuAPITextToImage", "widgets": {
