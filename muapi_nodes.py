@@ -584,21 +584,26 @@ class MuAPIImageToVideo:
                 images_list.append(_upload_image(api_key, img))
         if not images_list: raise ValueError("At least one image required.")
         
-        # Detect if endpoint needs images_list (array) or image_url (string)
-        # Seedance, Vidu, Kontext, Wan, Pixverse, Sora-2, Nano-banana, Veo-4,
-        # Happy-Horse, Kling-Omni/4k use images_list.
-        # Kling, Luma, Runway, Hailuo, LTX-2, Leonardo, Midjourney use image_url.
-        needs_list = any(x in endpoint for x in [
-            "seedance", "sd-2-", "vidu", "kontext", "wan", "pixverse",
-            "openai-sora", "nano-banana",
-            "veo-4", "happy-horse",
-            "kling-v3.0-omni", "kling-v3.0-4k",
-        ])
-        
-        payload = {"prompt": prompt, "aspect_ratio": aspect_ratio, 
+        # Detect the correct image field for each endpoint:
+        #   videos_list  — wan2.7-reference-to-video (API schema uses this name)
+        #   images_list  — seedance, sd-2, vidu, kontext, pixverse, openai-sora (non-standard),
+        #                  nano-banana, veo-4, happy-horse, kling-v3.0-omni, all other *reference* endpoints
+        #   image_url    — wan regular I2V, kling (non-omni), luma, runway, hailuo, ltx-2,
+        #                  leonardo, midjourney, openai-sora-2-standard
+        payload = {"prompt": prompt, "aspect_ratio": aspect_ratio,
                    "quality": quality, "duration": duration, **_extra(extra_params_json)}
-        
-        if needs_list:
+
+        if endpoint == "wan2.7-reference-to-video":
+            payload["videos_list"] = images_list
+        elif (
+            any(x in endpoint for x in [
+                "seedance", "sd-2-", "vidu", "kontext", "pixverse",
+                "nano-banana", "veo-4", "happy-horse",
+                "kling-v3.0-omni",
+            ])
+            or ("openai-sora" in endpoint and "standard" not in endpoint)
+            or "reference" in endpoint
+        ):
             payload["images_list"] = images_list
         else:
             payload["image_url"] = images_list[0]
