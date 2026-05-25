@@ -585,17 +585,15 @@ class MuAPIImageToVideo:
         if not images_list: raise ValueError("At least one image required.")
         
         # Detect the correct image field for each endpoint:
-        #   videos_list  — wan2.7-reference-to-video (API schema uses this name)
-        #   images_list  — seedance, sd-2, vidu, kontext, pixverse, openai-sora (non-standard),
-        #                  nano-banana, veo-4, happy-horse, kling-v3.0-omni, all other *reference* endpoints
+        #   images_list  — wan2.7-reference-to-video, seedance, sd-2, vidu, kontext, pixverse,
+        #                  openai-sora (non-standard), nano-banana, veo-4, happy-horse,
+        #                  kling-v3.0-omni, all other *reference* endpoints
         #   image_url    — wan regular I2V, kling (non-omni), luma, runway, hailuo, ltx-2,
         #                  leonardo, midjourney, openai-sora-2-standard
         payload = {"prompt": prompt, "aspect_ratio": aspect_ratio,
                    "quality": quality, "duration": duration, **_extra(extra_params_json)}
 
-        if endpoint == "wan2.7-reference-to-video":
-            payload["videos_list"] = images_list
-        elif (
+        if (
             any(x in endpoint for x in [
                 "seedance", "sd-2-", "vidu", "kontext", "pixverse",
                 "nano-banana", "veo-4", "happy-horse",
