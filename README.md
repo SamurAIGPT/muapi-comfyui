@@ -7,6 +7,14 @@
 [![ComfyUI](https://img.shields.io/badge/ComfyUI-Custom%20Nodes-blue)](https://github.com/comfyanonymous/ComfyUI)
 [![Models](https://img.shields.io/badge/Models-100%2B-orange)](https://muapi.ai)
 
+## Related Projects
+
+- [Open-Generative-AI](https://github.com/Anil-matcha/Open-Generative-AI) — Browser-based studio for the same MuAPI models — no ComfyUI needed
+- [midjourney-comfyui](https://github.com/Anil-matcha/midjourney-comfyui) — ComfyUI nodes for Midjourney via MuAPI
+- [seedance2-comfyui](https://github.com/Anil-matcha/seedance2-comfyui) — ComfyUI nodes for Seedance 2 via MuAPI
+- [veo3.1-comfyui](https://github.com/Anil-matcha/veo3.1-comfyui) — ComfyUI nodes for Veo 3.1 via MuAPI
+- [ai-clipping-comfyui](https://github.com/Anil-matcha/ai-clipping-comfyui) — AI video clipping ComfyUI nodes
+
 ## What is MuAPI?
 
 [MuAPI](https://muapi.ai) is a generative media API aggregator giving you access to 100+ cutting-edge models: Seedance 2.0, Kling, Veo3, Flux, HiDream, GPT-image-1.5, Imagen4, and many more — all through one unified API key.
