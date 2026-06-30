@@ -135,8 +135,8 @@ T2V_ENDPOINTS = [
     "kling-v3.0-omni-4k-text-to-video",
     "seedance-2-text-to-video", "seedance-2-text-to-video-fast",
     "seedance-2-vip-text-to-video", "seedance-2-vip-text-to-video-fast",
-    "sd-2-vip-text-to-video-1080p", "sd-2-vip-text-to-video-fast-1080p",
-    "sd-2-vip-extend", "sd-2-vip-extend-1080p",
+    "seedance-2-vip-text-to-video-1080p", "seedance-2-vip-text-to-video-fast-1080p",
+    "seedance-2-vip-extend", "seedance-2-vip-extend-1080p",
     "grok-imagine-extend",
     "happy-horse-1-text-to-video-720p", "happy-horse-1-text-to-video-1080p",
     "wan2.7-text-to-video",
@@ -195,9 +195,9 @@ I2V_ENDPOINTS = [
     "seedance-2-vip-first-last-frame", "seedance-2-vip-first-last-frame-fast",
     "seedance-2-vip-omni-reference", "seedance-2-vip-omni-reference-fast",
     "seedance-2.0-omni-reference", "seedance-2.0-omni-reference-480p",
-    "sd-2-vip-image-to-video-1080p", "sd-2-vip-image-to-video-fast-1080p",
-    "sd-2-vip-first-last-frame-1080p",
-    "sd-2-vip-omni-reference-1080p", "sd-2-vip-omni-reference-fast-1080p",
+    "seedance-2-vip-image-to-video-1080p", "seedance-2-vip-image-to-video-fast-1080p",
+    "seedance-2-vip-first-last-frame-1080p",
+    "seedance-2-vip-omni-reference-1080p", "seedance-2-vip-omni-reference-fast-1080p",
     "happy-horse-1-image-to-video-720p", "happy-horse-1-image-to-video-1080p",
     "happy-horse-1-reference-to-video-720p", "happy-horse-1-reference-to-video-1080p",
     "vidu-q2-pro-image-to-video", "vidu-q2-turbo-image-to-video",
@@ -212,7 +212,7 @@ EXTEND_ENDPOINTS = [
     "seedance-v1.5-pro-video-extend", "seedance-v1.5-pro-video-extend-fast",
     "veo3.1-extend-video", "wan2.2-spicy-video-extend",
     "grok-imagine-extend",
-    "sd-2-vip-extend", "sd-2-vip-extend-1080p",
+    "seedance-2-vip-extend", "seedance-2-vip-extend-1080p",
     "ltx-2.3-video-extend",
     "pixverse-v6-extend",
     "wan2.7-video-extend",
@@ -323,7 +323,17 @@ def _upload_image(api_key, image_tensor):
     return _url(resp.json())
 
 def _upload_file(api_key, path):
-    mime = "video/mp4" if path.lower().endswith((".mp4", ".mov", ".webm")) else "image/jpeg"
+    ext = path.lower().rsplit(".", 1)[-1] if "." in path else ""
+    if ext in ("mp4", "mov", "webm"):
+        mime = "video/mp4"
+    elif ext == "mp3":
+        mime = "audio/mpeg"
+    elif ext == "wav":
+        mime = "audio/wav"
+    elif ext == "aac":
+        mime = "audio/aac"
+    else:
+        mime = "image/jpeg"
     with open(path, "rb") as fh:
         resp = requests.post(f"{BASE_URL}/upload_file",
                              headers={"x-api-key": api_key},
@@ -564,6 +574,14 @@ class MuAPIImageToVideo:
             "api_key": ("STRING", {"multiline": False, "default": ""}),
             "image_1": ("IMAGE",), "image_2": ("IMAGE",),
             "image_3": ("IMAGE",), "image_4": ("IMAGE",),
+            "image_5": ("IMAGE",), "image_6": ("IMAGE",),
+            "image_7": ("IMAGE",), "image_8": ("IMAGE",), "image_9": ("IMAGE",),
+            "video_file_1": ("STRING", {"multiline": False, "default": ""}),
+            "video_file_2": ("STRING", {"multiline": False, "default": ""}),
+            "video_file_3": ("STRING", {"multiline": False, "default": ""}),
+            "audio_file_1": ("STRING", {"multiline": False, "default": ""}),
+            "audio_file_2": ("STRING", {"multiline": False, "default": ""}),
+            "audio_file_3": ("STRING", {"multiline": False, "default": ""}),
             "custom_endpoint": ("STRING", {"multiline": False, "default": ""}),
             "extra_params_json": ("STRING", {"multiline": True, "default": "{}"}),
         }}
@@ -573,29 +591,34 @@ class MuAPIImageToVideo:
     CATEGORY = "🎬 MuAPI"
 
     def run(self, model, prompt, aspect_ratio, quality, duration,
-            api_key="", image_1=None, image_2=None, image_3=None, image_4=None,
+            api_key="",
+            image_1=None, image_2=None, image_3=None, image_4=None,
+            image_5=None, image_6=None, image_7=None, image_8=None, image_9=None,
+            video_file_1="", video_file_2="", video_file_3="",
+            audio_file_1="", audio_file_2="", audio_file_3="",
             custom_endpoint="", extra_params_json="{}"):
         api_key = _load_api_key(api_key)
         endpoint = _ep(model, custom_endpoint)
+
         images_list = []
-        for i, img in enumerate([image_1, image_2, image_3, image_4], 1):
+        for i, img in enumerate([image_1, image_2, image_3, image_4,
+                                  image_5, image_6, image_7, image_8, image_9], 1):
             if img is not None:
                 print(f"[MuAPI I2V] Uploading image {i}...")
                 images_list.append(_upload_image(api_key, img))
         if not images_list: raise ValueError("At least one image required.")
-        
+
         # Detect the correct image field for each endpoint:
-        #   images_list  — wan2.7-reference-to-video, seedance, sd-2, vidu, kontext, pixverse,
-        #                  openai-sora (non-standard), nano-banana, veo-4, happy-horse,
-        #                  kling-v3.0-omni, all other *reference* endpoints
-        #   image_url    — wan regular I2V, kling (non-omni), luma, runway, hailuo, ltx-2,
-        #                  leonardo, midjourney, openai-sora-2-standard
+        #   images_list  — seedance, vidu, kontext, pixverse, nano-banana, veo-4,
+        #                  happy-horse, kling-v3.0-omni, all *reference* endpoints
+        #   image_url    — wan regular I2V, kling (non-omni), luma, runway, hailuo,
+        #                  ltx-2, leonardo, midjourney, openai-sora-2-standard
         payload = {"prompt": prompt, "aspect_ratio": aspect_ratio,
                    "quality": quality, "duration": duration, **_extra(extra_params_json)}
 
         if (
             any(x in endpoint for x in [
-                "seedance", "sd-2-", "vidu", "kontext", "pixverse",
+                "seedance", "vidu", "kontext", "pixverse",
                 "nano-banana", "veo-4", "happy-horse",
                 "kling-v3.0-omni",
             ])
@@ -605,7 +628,27 @@ class MuAPIImageToVideo:
             payload["images_list"] = images_list
         else:
             payload["image_url"] = images_list[0]
-            
+
+        # omni-reference models additionally accept video_files and audio_files
+        is_omni = "omni-reference" in endpoint and "no-video" not in endpoint
+        if is_omni:
+            video_urls = []
+            for i, path in enumerate([video_file_1, video_file_2, video_file_3], 1):
+                if path and path.strip() and os.path.isfile(path.strip()):
+                    print(f"[MuAPI I2V] Uploading video_file_{i}...")
+                    video_urls.append(_upload_file(api_key, path.strip()))
+            if video_urls:
+                payload["video_files"] = video_urls
+
+        if "omni-reference" in endpoint:
+            audio_urls = []
+            for i, path in enumerate([audio_file_1, audio_file_2, audio_file_3], 1):
+                if path and path.strip() and os.path.isfile(path.strip()):
+                    print(f"[MuAPI I2V] Uploading audio_file_{i}...")
+                    audio_urls.append(_upload_file(api_key, path.strip()))
+            if audio_urls:
+                payload["audio_files"] = audio_urls
+
         print(f"[MuAPI I2V] {endpoint}  {len(images_list)} image(s)")
         rid = _submit(api_key, endpoint, payload)
         result = _poll(api_key, rid)
