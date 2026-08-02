@@ -9,6 +9,8 @@
 
 ## Related Projects
 
+- [MuAPI ComfyUI docs](https://muapi.ai/docs/comfyui) — Setup and workflow guidance for the node ecosystem.
+- [MuAPI access keys](https://muapi.ai/access-keys) — Create the key used by these nodes.
 - [Open-Generative-AI](https://github.com/Anil-matcha/Open-Generative-AI) — Browser-based studio for the same MuAPI models — no ComfyUI needed
 - [midjourney-comfyui](https://github.com/Anil-matcha/midjourney-comfyui) — ComfyUI nodes for Midjourney via MuAPI
 - [seedance2-comfyui](https://github.com/Anil-matcha/seedance2-comfyui) — ComfyUI nodes for Seedance 2 via MuAPI
