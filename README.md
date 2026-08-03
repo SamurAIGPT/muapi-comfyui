@@ -14,6 +14,7 @@
 - [Open-Generative-AI](https://github.com/Anil-matcha/Open-Generative-AI) — Browser-based studio for the same MuAPI models — no ComfyUI needed
 - [midjourney-comfyui](https://github.com/Anil-matcha/midjourney-comfyui) — ComfyUI nodes for Midjourney via MuAPI
 - [seedance2-comfyui](https://github.com/Anil-matcha/seedance2-comfyui) — ComfyUI nodes for Seedance 2 via MuAPI
+- [seedance2.5-comfyui](https://github.com/Anil-matcha/seedance2.5-comfyui) — Native ComfyUI nodes for Seedance 2.5 via MuAPI
 - [veo3.1-comfyui](https://github.com/Anil-matcha/veo3.1-comfyui) — ComfyUI nodes for Veo 3.1 via MuAPI
 - [ai-clipping-comfyui](https://github.com/Anil-matcha/ai-clipping-comfyui) — AI video clipping ComfyUI nodes
 
