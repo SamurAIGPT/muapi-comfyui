@@ -17,6 +17,7 @@
 - [seedance2.5-comfyui](https://github.com/Anil-matcha/seedance2.5-comfyui) — Native ComfyUI nodes for Seedance 2.5 via MuAPI
 - [veo3.1-comfyui](https://github.com/Anil-matcha/veo3.1-comfyui) — ComfyUI nodes for Veo 3.1 via MuAPI
 - [ai-clipping-comfyui](https://github.com/Anil-matcha/ai-clipping-comfyui) — AI video clipping ComfyUI nodes
+- [wan-3.0-comfyui](https://github.com/Anil-matcha/wan-3.0-comfyui) — ComfyUI custom nodes for Wan 3.0 text-to-image, image edit, text-to-video, and image-to-video via MuAPI.
 
 ## What is MuAPI?
 
