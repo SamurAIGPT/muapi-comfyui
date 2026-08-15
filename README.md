@@ -18,6 +18,7 @@
 - [veo3.1-comfyui](https://github.com/Anil-matcha/veo3.1-comfyui) — ComfyUI nodes for Veo 3.1 via MuAPI
 - [ai-clipping-comfyui](https://github.com/Anil-matcha/ai-clipping-comfyui) — AI video clipping ComfyUI nodes
 - [wan-3.0-comfyui](https://github.com/Anil-matcha/wan-3.0-comfyui) — ComfyUI custom nodes for Wan 3.0 text-to-image, image edit, text-to-video, and image-to-video via MuAPI.
+- [minimax-music-3-comfyui](https://github.com/Anil-matcha/minimax-music-3-comfyui) — ComfyUI custom nodes for MiniMax Music 3.0 text-to-music generation via MuAPI.
 
 ## What is MuAPI?
 
