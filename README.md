@@ -41,6 +41,12 @@
 | 🎬 MuAPI Generate (Generic) | 🎬 MuAPI | Any endpoint + raw JSON payload |
 | 🎬 MuAPI Save Video | 🎬 MuAPI | Download video → disk + IMAGE frames |
 
+### Save Video safety
+
+The **MuAPI Save Video** node accepts only HTTPS output URLs from `cdn.muapi.ai`; redirects are
+rejected. Its `save_subfolder` is confined to ComfyUI's configured output directory, and
+`filename_prefix` must be a single filename component.
+
 ## Installation
 
 **Via ComfyUI Manager:**
