@@ -1,7 +1,7 @@
 # MuAPI ComfyUI Nodes
 
 > **The ultimate ComfyUI node pack for AI video, image, audio and enhancement** — powered by [muapi.ai](https://muapi.ai).
-> Run 100+ state-of-the-art AI models inside ComfyUI with a single API key.
+> Run 600+ state-of-the-art AI models inside ComfyUI with a single API key.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![ComfyUI](https://img.shields.io/badge/ComfyUI-Custom%20Nodes-blue)](https://github.com/comfyanonymous/ComfyUI)
@@ -22,7 +22,7 @@
 
 ## What is MuAPI?
 
-[MuAPI](https://muapi.ai) is a generative media API aggregator giving you access to 100+ cutting-edge models: Seedance 2.0, Kling, Veo3, Flux, HiDream, GPT-image-1.5, Imagen4, and many more — all through one unified API key.
+[MuAPI](https://muapi.ai) is a generative media API aggregator giving you access to 600+ cutting-edge models: Seedance 2.0, Kling, Veo3, Flux, HiDream, GPT-image-1.5, Imagen4, and many more — all through one unified API key.
 
 ## Nodes (12 total)
 
@@ -93,7 +93,7 @@ Call **any** muapi endpoint with raw JSON. Use `__file_1__` … `__file_4__` pla
 
 **Enhance:** `ai-image-upscale` · `topaz-image-upscale` · `ai-background-remover` · `ai-ghibli-style` · `ai-color-photo` · `ai-object-eraser`
 
-See the [full API docs](https://api.muapi.ai/docs) for 100+ endpoints.
+See the [full API docs](https://api.muapi.ai/docs) for 600+ endpoints.
 
 ## License
 
