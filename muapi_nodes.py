@@ -20,6 +20,7 @@ API base: https://api.muapi.ai/api/v1
 
 import io
 import json
+import ntpath
 import os
 import time
 
@@ -27,6 +28,20 @@ import numpy as np
 import requests
 import torch
 from PIL import Image
+
+try:
+    import folder_paths
+except ImportError:
+    class _FolderPaths:
+        @staticmethod
+        def get_input_directory():
+            return os.path.join(os.getcwd(), "input")
+
+        @staticmethod
+        def get_output_directory():
+            return os.path.join(os.getcwd(), "output")
+
+    folder_paths = _FolderPaths()
 
 BASE_URL = "https://api.muapi.ai/api/v1"
 POLL_INTERVAL = 10
@@ -322,8 +337,37 @@ def _upload_image(api_key, image_tensor):
     _check(resp)
     return _url(resp.json())
 
+
+def _confined_upload_path(path):
+    """Resolve a user path and require it to stay in ComfyUI input/output."""
+    if not isinstance(path, str) or not path.strip():
+        raise ValueError("Upload path is required")
+
+    candidate = path.strip()
+    if os.path.isabs(candidate) or ntpath.isabs(candidate):
+        raise ValueError("Upload path must be relative to ComfyUI input or output")
+
+    path_parts = candidate.replace("\\", "/").split("/")
+    if ".." in path_parts:
+        raise ValueError("Upload path cannot contain '..'")
+
+    resolved = os.path.realpath(candidate)
+    roots = (
+        os.path.realpath(folder_paths.get_input_directory()),
+        os.path.realpath(folder_paths.get_output_directory()),
+    )
+    try:
+        confined = any(os.path.commonpath((resolved, root)) == root for root in roots)
+    except ValueError:
+        confined = False
+    if not confined:
+        raise ValueError("Upload path must remain inside ComfyUI input or output")
+    return resolved
+
+
 def _upload_file(api_key, path):
-    ext = path.lower().rsplit(".", 1)[-1] if "." in path else ""
+    safe_path = _confined_upload_path(path)
+    ext = safe_path.lower().rsplit(".", 1)[-1] if "." in safe_path else ""
     if ext in ("mp4", "mov", "webm"):
         mime = "video/mp4"
     elif ext == "mp3":
@@ -334,10 +378,10 @@ def _upload_file(api_key, path):
         mime = "audio/aac"
     else:
         mime = "image/jpeg"
-    with open(path, "rb") as fh:
+    with open(safe_path, "rb") as fh:
         resp = requests.post(f"{BASE_URL}/upload_file",
                              headers={"x-api-key": api_key},
-                             files={"file": (os.path.basename(path), fh, mime)},
+                             files={"file": (os.path.basename(safe_path), fh, mime)},
                              timeout=300)
     _check(resp)
     return _url(resp.json())
@@ -634,18 +678,26 @@ class MuAPIImageToVideo:
         if is_omni:
             video_urls = []
             for i, path in enumerate([video_file_1, video_file_2, video_file_3], 1):
-                if path and path.strip() and os.path.isfile(path.strip()):
+                if path and path.strip():
+                    safe_path = _confined_upload_path(path)
+                else:
+                    safe_path = ""
+                if safe_path and os.path.isfile(safe_path):
                     print(f"[MuAPI I2V] Uploading video_file_{i}...")
-                    video_urls.append(_upload_file(api_key, path.strip()))
+                    video_urls.append(_upload_file(api_key, path))
             if video_urls:
                 payload["video_files"] = video_urls
 
         if "omni-reference" in endpoint:
             audio_urls = []
             for i, path in enumerate([audio_file_1, audio_file_2, audio_file_3], 1):
-                if path and path.strip() and os.path.isfile(path.strip()):
+                if path and path.strip():
+                    safe_path = _confined_upload_path(path)
+                else:
+                    safe_path = ""
+                if safe_path and os.path.isfile(safe_path):
                     print(f"[MuAPI I2V] Uploading audio_file_{i}...")
-                    audio_urls.append(_upload_file(api_key, path.strip()))
+                    audio_urls.append(_upload_file(api_key, path))
             if audio_urls:
                 payload["audio_files"] = audio_urls
 
@@ -797,7 +849,11 @@ class MuAPILipsync:
             audio_file_path="", custom_endpoint="", extra_params_json="{}"):
         api_key = _load_api_key(api_key)
         endpoint = _ep(model, custom_endpoint)
-        if audio_file_path.strip() and os.path.isfile(audio_file_path):
+        if audio_file_path.strip():
+            safe_audio_path = _confined_upload_path(audio_file_path)
+        else:
+            safe_audio_path = ""
+        if safe_audio_path and os.path.isfile(safe_audio_path):
             print("[MuAPI Lipsync] Uploading audio...")
             audio_url = _upload_file(api_key, audio_file_path)
         if not audio_url.strip(): raise ValueError("audio_url or audio_file_path required.")
@@ -876,7 +932,11 @@ class MuAPIGenerate:
                 s = s.replace(ph, f'"{_upload_image(api_key, img)}"')
         for i, p in enumerate([file_path_1, file_path_2], 1):
             ph = f'"__file_path_{i}__"'
-            if p and p.strip() and os.path.isfile(p) and ph in s:
+            if p and p.strip() and ph in s:
+                safe_path = _confined_upload_path(p)
+            else:
+                safe_path = ""
+            if safe_path and os.path.isfile(safe_path):
                 print(f"[MuAPI Generic] Uploading file_path_{i}...")
                 s = s.replace(ph, f'"{_upload_file(api_key, p)}"')
         payload = json.loads(s)
