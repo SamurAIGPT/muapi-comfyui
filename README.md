@@ -87,6 +87,8 @@ Call **any** muapi endpoint with raw JSON. Use `__file_1__` … `__file_4__` pla
 
 **T2V:** `seedance-v2.0-t2v` · `kling-v2.6-pro-t2v` · `veo3.1-text-to-video` · `wan2.5-text-to-video` · `hunyuan-text-to-video` · `minimax-hailuo-02-pro-t2v` · `grok-imagine-text-to-video`
 
+Newer additions include **Seedance 2.5** (standard, international, and spicy variants), **Wan 3.0**, **FLUX 3**, **MiniMax H3**, **HappyHorse 1.1**, **LTX 2.5**, and Kling V3 Turbo. The image, edit, and video nodes also include the matching newer generation, reference, extension, and editing endpoints where MuAPI exposes them.
+
 **I2V:** `seedance-v2.0-i2v` · `seedance-2.0-new-omni` · `kling-v2.6-pro-i2v` · `veo3.1-image-to-video` · `wan2.5-image-to-video` · `hunyuan-image-to-video`
 
 **T2I:** `flux-dev-image` · `flux-2-pro` · `flux-kontext-max-t2i` · `hidream_i1_full_image` · `gpt4o-text-to-image` · `google-imagen4-ultra` · `seedream-5.0` · `hunyuan-image-3.0`
