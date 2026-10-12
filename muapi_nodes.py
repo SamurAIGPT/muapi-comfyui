@@ -235,6 +235,7 @@ I2V_ENDPOINTS = [
     "happy-horse-1-reference-to-video-720p", "happy-horse-1-reference-to-video-1080p",
     "vidu-q2-pro-image-to-video", "vidu-q2-turbo-image-to-video",
     "vidu-q3-pro-image-to-video", "vidu-q3-turbo-image-to-video",
+    "vidu-q4-image-to-video", "vidu-q4-reference-to-video",
     "vidu-q3-pro-first-last-frames", "vidu-q3-turbo-first-last-frames",
     "wan2.7-image-to-video", "wan2.7-reference-to-video",
     "seedance-2.5-image-to-video", "seedance-2.5-intl-image-to-video", "seedance-2.5-spicy-image-to-video",
@@ -709,7 +710,7 @@ class MuAPIImageToVideo:
             ])
             or ("openai-sora" in endpoint and "standard" not in endpoint)
             or "reference" in endpoint
-        ):
+        ) and endpoint != "vidu-q4-image-to-video":
             payload["images_list"] = images_list
         else:
             payload["image_url"] = images_list[0]
