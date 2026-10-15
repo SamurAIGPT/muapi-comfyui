@@ -19,6 +19,7 @@
 - [ai-clipping-comfyui](https://github.com/Anil-matcha/ai-clipping-comfyui) — AI video clipping ComfyUI nodes
 - [wan-3.0-comfyui](https://github.com/Anil-matcha/wan-3.0-comfyui) — ComfyUI custom nodes for Wan 3.0 text-to-image, image edit, text-to-video, and image-to-video via MuAPI.
 - [minimax-music-3-comfyui](https://github.com/Anil-matcha/minimax-music-3-comfyui) — ComfyUI custom nodes for MiniMax Music 3.0 text-to-music generation via MuAPI.
+- [Uncensored AI Video Generator in ComfyUI](https://github.com/Anil-matcha/uncensored-ai-video-generator-comfyui) — guide to running the unrestricted (spicy) video models from this pack in ComfyUI with no GPU.
 
 ## What is MuAPI?
 
