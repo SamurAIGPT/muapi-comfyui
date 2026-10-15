@@ -61,7 +61,7 @@ T2I_ENDPOINTS = [
     "bytedance-seedream-v4.5", "seedream-5.0",
     "wan2.1-text-to-image", "wan2.5-text-to-image", "wan2.6-text-to-image",
     "hunyuan-image-2.1", "hunyuan-image-3.0",
-    "kling-o1-text-to-image", "ideogram-v3-t2i",
+    "kling-o1-text-to-image", "ideogram-v3-t2i", "ideogram-v4",
     "grok-imagine-text-to-image", "chroma-image",
     "vidu-q2-text-to-image", "ai-anime-generator",
     "z-image-base", "z-image-turbo", "z-image-p",
@@ -335,6 +335,8 @@ AUDIO_ENDPOINTS = [
     "mmaudio-text-to-audio", "mmaudio-video-to-audio",
     "mmaudio-v2/text-to-audio",
     "minimax-speech-2.6-hd", "minimax-speech-2.6-turbo", "minimax-voice-clone",
+    "elevenlabs-v4", "fish-s2-1-pro",
+    "lyria-3-pro", "lyria-3", "lyria-2",
     "custom",
 ]
 
