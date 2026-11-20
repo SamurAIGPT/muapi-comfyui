@@ -140,7 +140,7 @@ T2V_ENDPOINTS = [
     "minimax-hailuo-2.3-pro-t2v", "minimax-hailuo-2.3-standard-t2v",
     "ltx-2-19b-text-to-video", "ltx-2-fast-text-to-video", "ltx-2-pro-text-to-video",
     "ltx-2.3-text-to-video",
-    "ltx-2.5-text-to-video",
+    "ltx-2.5-text-to-video", "ltx-2.5-fast-text-to-video", "ltx-2.5-pro-text-to-video",
     "openai-sora", "openai-sora-2-text-to-video",
     "openai-sora-2-standard-text-to-video",
     "openai-sora-2-pro-text-to-video", "openai-sora-2-pro-storyboard",
@@ -260,7 +260,8 @@ I2V_ENDPOINTS = [
     "flux-3-image-to-video", "flux-3-omni", "flux-3-start-end-to-video", "wan3.0-image-to-video",
     "happy-horse-1.1-image-to-video", "happy-horse-1.1-reference-to-video",
     "minimax-h3-image-to-video", "minimax-h3-reference-to-video", "minimax-h3-max-image-to-video",
-    "ltx-2.5-image-to-video", "gemini-omni-image-to-video",
+    "ltx-2.5-image-to-video", "ltx-2.5-fast-image-to-video", "ltx-2.5-pro-image-to-video",
+    "gemini-omni-image-to-video",
     "custom",
 ]
 
