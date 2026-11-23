@@ -81,6 +81,8 @@ T2I_ENDPOINTS = [
     "flux-2-klein-4b-turbo", "flux-2-klein-9b-turbo",
     "flux-2-klein-4b-text-to-image-lora", "flux-2-klein-9b-text-to-image-lora",
     "straico-generate-image",
+    "seedream-5.5",
+    "minimax-h3-image-text-to-image", "minimax-h3-image-highspeed-text-to-image",
     "custom",
 ]
 
@@ -118,6 +120,8 @@ I2I_ENDPOINTS = [
     "wan2.7-image-edit", "wan2.7-image-edit-pro",
     "flux-2-klein-4b-turbo-edit", "flux-2-klein-9b-turbo-edit",
     "flux-2-klein-4b-edit-lora", "flux-2-klein-9b-edit-lora",
+    "seedream-5.5-edit", "seedream-5.5-layer",
+    "minimax-h3-image-edit", "minimax-h3-image-highspeed-edit",
     "custom",
 ]
 
@@ -175,6 +179,12 @@ T2V_ENDPOINTS = [
     "seedance-2-spicy-text-to-video", "seedance-2-spicy-text-to-video-fast",
     "seedance-2-mini-spicy-text-to-video",
     "minimax-h3-text-to-video", "minimax-h3-max-text-to-video", "happy-horse-1.1-text-to-video",
+    "seedance-2.5-flash-text-to-video", "seedance-2.5-flash-spicy-text-to-video", "seedance-2.5-flash-intl-text-to-video",
+    "gemini-omni-flash-1-2-text-to-video",
+    "minimax-h3-max-spicy-text-to-video", "minimax-h3-max-turbo-spicy-text-to-video", "minimax-h3-text-to-video-spicy",
+    "kling-4.0-text-to-video", "kling-4.0-flash-text-to-video",
+    "pixverse-v6-max-text-to-video",
+    "grok-imagine-video-1-5-text-to-video", "grok-imagine-video-1-5-lite-text-to-video",
     "custom",
 ]
 
@@ -262,6 +272,16 @@ I2V_ENDPOINTS = [
     "minimax-h3-image-to-video", "minimax-h3-reference-to-video", "minimax-h3-max-image-to-video",
     "ltx-2.5-image-to-video", "ltx-2.5-fast-image-to-video", "ltx-2.5-pro-image-to-video",
     "gemini-omni-image-to-video",
+    "seedance-2.5-flash-image-to-video", "seedance-2.5-flash-spicy-image-to-video", "seedance-2.5-flash-intl-image-to-video",
+    "seedance-2.5-flash-first-last-frame", "seedance-2.5-flash-spicy-first-last-frame", "seedance-2.5-flash-intl-first-last-frame",
+    "seedance-2.5-flash-reference-to-video", "seedance-2.5-flash-spicy-reference-to-video", "seedance-2.5-flash-intl-reference-to-video",
+    "gemini-omni-flash-1-2-image-to-video", "gemini-omni-flash-1-2-reference-to-video",
+    "minimax-h3-max-spicy-image-to-video", "minimax-h3-max-spicy-reference-to-video",
+    "minimax-h3-max-turbo-spicy-image-to-video", "minimax-h3-reference-to-video-spicy",
+    "kling-4.0-reference-to-video", "kling-4.0-keyframe-to-video",
+    "kling-4.0-flash-reference-to-video", "kling-4.0-flash-keyframe-to-video",
+    "pixverse-v6-max-image-to-video",
+    "grok-imagine-video-1-5-image-to-video", "grok-imagine-video-1-5-reference-to-video", "grok-imagine-video-1-5-lite-image-to-video",
     "custom",
 ]
 
@@ -274,6 +294,8 @@ EXTEND_ENDPOINTS = [
     "ltx-2.3-video-extend",
     "pixverse-v6-extend",
     "wan2.7-video-extend",
+    "seedance-2.5-flash-video-extend", "seedance-2.5-flash-spicy-video-extend", "seedance-2.5-flash-intl-video-extend",
+    "gemini-omni-flash-1-2-extend",
     "custom",
 ]
 
@@ -316,6 +338,10 @@ VIDEO_EDIT_ENDPOINTS = [
     "seedance-2.5-video-edit", "seedance-2.5-intl-video-edit", "seedance-2.5-spicy-video-edit",
     "seedance-2.5-video-extend", "seedance-2.5-intl-video-extend", "seedance-2.5-spicy-video-extend",
     "seedance-2.5-motion-control", "seedance-2.5-intl-motion-control", "seedance-2.5-spicy-motion-control",
+    "seedance-2.5-flash-video-edit", "seedance-2.5-flash-spicy-video-edit", "seedance-2.5-flash-intl-video-edit",
+    "seedance-2.5-flash-video-extend", "seedance-2.5-flash-spicy-video-extend", "seedance-2.5-flash-intl-video-extend",
+    "gemini-omni-flash-1-2-video-edit", "gemini-omni-flash-1-2-extend",
+    "seedance-2-spicy-motion-control",
     "flux-3-video-extend", "flux-3-video-extend-draft", "flux-3-video-upscaler",
     "gemini-omni-video-edit", "gemini-omni-flash-1-1-edit",
     "happy-horse-1.1-video-edit", "happy-horse-1.1-video-edit-720p", "happy-horse-1.1-video-edit-1080p",
@@ -332,6 +358,7 @@ LIPSYNC_ENDPOINTS = [
     "kling-v1-avatar-pro", "kling-v1-avatar-standard",
     "kling-v2-avatar-pro", "kling-v2-avatar-standard",
     "wan2.2-speech-to-video",
+    "omnihuman-2-0",
     "custom",
 ]
 
@@ -339,6 +366,7 @@ AUDIO_ENDPOINTS = [
     "suno-create-music", "suno-remix-music", "suno-extend-music",
     "suno-add-instrumental", "suno-add-vocals",
     "suno-generate-mashup", "suno-generate-sounds",
+    "suno-speech",
     "mmaudio-text-to-audio", "mmaudio-video-to-audio",
     "mmaudio-v2/text-to-audio",
     "minimax-speech-2.6-hd", "minimax-speech-2.6-turbo", "minimax-voice-clone",

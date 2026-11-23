@@ -75,15 +75,22 @@ class MuAPIUploadSecurityTests(unittest.TestCase):
         outside_file = self.root / "secret.txt"
         outside_file.write_text("do not upload", encoding="utf-8")
         symlink = self.input_dir / "linked-secret.txt"
-        symlink.symlink_to(outside_file)
+        try:
+            symlink.symlink_to(outside_file)
+            has_symlink = True
+        except OSError:
+            has_symlink = False
 
-        for unsafe_path in (
+        unsafe_paths = [
             str(outside_file),
             "../secret.txt",
             "input/../secret.txt",
             r"input\..\secret.txt",
-            "input/linked-secret.txt",
-        ):
+        ]
+        if has_symlink:
+            unsafe_paths.append("input/linked-secret.txt")
+
+        for unsafe_path in unsafe_paths:
             with self.subTest(unsafe_path=unsafe_path):
                 with self.assertRaises(ValueError):
                     nodes._confined_upload_path(unsafe_path)
