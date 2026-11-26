@@ -1,4 +1,4 @@
-# MuAPI ComfyUI Nodes
+# ComfyUI Spicy and Uncensored-Style AI Video: Seedance 2/2.5 and Wan 3.0 via MuAPI
 
 > **The ultimate ComfyUI node pack for AI video, image, audio and enhancement** — powered by [muapi.ai](https://muapi.ai).
 > Run 600+ state-of-the-art AI models inside ComfyUI with a single API key.
@@ -92,7 +92,7 @@ Newer additions include **Seedance 2.5** (standard, international, and spicy var
 
 ## Spicy and Uncensored AI Video Generation in ComfyUI
 
-The generic MuAPI generation node can call available **Spicy** routes for Seedance, Wan, and MiniMax H3. These are relaxed-moderation endpoints—often searched as uncensored AI video generation—not rule-free services. See the [uncensored AI video generator ComfyUI guide](https://github.com/Anil-matcha/uncensored-ai-video-generator-comfyui) for model names and workflows; provider terms still apply.
+The generic MuAPI generation node can call available **Spicy** routes for Seedance 2, Seedance 2.5, Wan 3.0, and MiniMax H3. These relaxed-moderation routes are often searched as uncensored Seedance or uncensored Wan AI video generation; they are not rule-free services. Provider terms still apply. See the [uncensored AI video generator ComfyUI guide](https://github.com/Anil-matcha/uncensored-ai-video-generator-comfyui) for model names and workflows.
 
 **I2V:** `seedance-v2.0-i2v` · `seedance-2.0-new-omni` · `kling-v2.6-pro-i2v` · `veo3.1-image-to-video` · `wan2.5-image-to-video` · `hunyuan-image-to-video`
 
